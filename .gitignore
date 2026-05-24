@@ -1,0 +1,23 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+
+# PDF output (users generate their own)
+*.pdf
+
+# macOS
+.DS_Store
+
+# Editor
+*.swp
+*.swo
+*~

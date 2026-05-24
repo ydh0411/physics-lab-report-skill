@@ -1,0 +1,236 @@
+% ============================================================
+% UESTC Physics Experiments I — PRELAB Template
+% REQUIRES: XeLaTeX (NOT pdfLaTeX)
+% ============================================================
+% Fill in YOUR info below, then compile twice:
+%   xelatex -interaction=nonstopmode file.tex
+%   xelatex -interaction=nonstopmode file.tex
+% ============================================================
+\documentclass[12pt,a4paper]{article}
+\usepackage{pdfpages}
+\usepackage[a4paper,top=1in,bottom=1in,left=1.25in,right=1.25in,headsep=10pt]{geometry}
+\usepackage{iftex}
+\ifPDFTeX
+  \PackageWarningNoLine{prelab}{Use XeLaTeX for correct font matching}
+  \usepackage{newtxtext,newtxmath}
+  \newcommand{\calibrifont}{\sffamily}
+  \newcommand{\calibrilight}{\sffamily}
+\else
+  \usepackage{fontspec}
+  \setmainfont{Times New Roman}
+  \setsansfont{Times New Roman}
+  \setmonofont{Courier New}
+  \usepackage{newtxmath}
+  % Use Arial as Calibri fallback on macOS/Linux
+  \newfontfamily\calibrifont{Arial}
+  \newfontfamily\calibrilight{Arial}
+\fi
+\usepackage{amsmath}
+\usepackage{array,booktabs,tabularx,longtable,float,graphicx,caption}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{eso-pic}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{setspace}
+\usepackage{indentfirst}
+
+% ---- Page layout ----
+\setlength{\parindent}{2em}
+\setlength{\parskip}{1pt}
+\setstretch{1.02}       % 1.02-1.04; tighter for long content
+\setlength{\abovedisplayskip}{5pt plus 1pt minus 2pt}
+\setlength{\belowdisplayskip}{5pt plus 1pt minus 2pt}
+\setlength{\abovedisplayshortskip}{4pt plus 1pt minus 2pt}
+\setlength{\belowdisplayshortskip}{4pt plus 1pt minus 2pt}
+\captionsetup{font=small,labelfont=bf,skip=4pt}
+\pagestyle{empty}
+\setcounter{page}{1}
+\setlength{\unitlength}{1pt}
+
+% ============================================================
+% === FILL IN YOUR INFORMATION HERE ===
+% ============================================================
+\newcommand{\CoverPDF}{01-Template for Prelab work-2026.pdf}
+\newcommand{\StudentNumber}{YOUR_STUDENT_ID}
+\newcommand{\StudentEmail}{YOUR_EMAIL}
+\newcommand{\ReportDate}{2026.X.X}           % dots format for overlay page
+
+% ============================================================
+% === YOUR ANSWERS GO HERE ===
+% ============================================================
+% Approach A (single-page, simplest): Fill \PrelabAnswerBody
+% Approach B (multi-page): Use {prelabanswers} environment instead
+%   — see multi-page section at the bottom of this template
+% ============================================================
+\newcommand{\PrelabAnswerBody}{%
+\begingroup
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\begin{enumerate}[leftmargin=0pt,label=(\arabic*),labelwidth=2.8em,labelsep=0.45em,itemindent=0pt,align=left,itemsep=0.20em,topsep=0pt,parsep=0pt,listparindent=0pt]
+
+\item % Answer question 1 here.
+      % Use \textbf{} for key terms, \[ \] for display equations.
+
+\item % Answer question 2 here.
+
+\item % Answer question 3 here.
+      % For sub-questions, nest another enumerate:
+      % \begin{enumerate}[label=\textbf{\arabic*.},leftmargin=2em,itemsep=0.04em]
+      % \item ...
+      % \end{enumerate}
+
+% Add more \item as needed
+
+\end{enumerate}
+\endgroup
+}
+
+% ============================================================
+% === OVERLAY DEFINITIONS (you should not need to edit below) ===
+% ============================================================
+
+% Background watermark — "Physics Lab 2026" (singular, 45° gray diagonal)
+\newcommand{\PrelabPageBackground}{%
+  \AddToShipoutPictureBG*{%
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[
+        rotate=45,
+        text=gray!60,
+        opacity=0.45,
+        scale=5.78,
+        font=\calibrifont
+      ] at ($(current page.center)+(0.25cm,-0.35cm)$) {Physics Lab 2026};
+    \end{tikzpicture}%
+  }%
+}
+
+% Foreground overlay — student info, score box, section title, page number
+% Parameter #1: page number to display in footer
+\newcommand{\PrelabPageForeground}[1]{%
+  \AddToShipoutPictureFG*{%
+    \AtPageLowerLeft{%
+      % --- Header info line (clean lab5-style spacing) ---
+      \put(75.864,785.568){\makebox(0,0)[lb]{\calibrifont\fontsize{8.5pt}{8.5pt}\selectfont UESTCStudentNumber:}}%
+      \put(190.000,785.568){\makebox(0,0)[lb]{\calibrifont\fontsize{8.5pt}{8.5pt}\selectfont \StudentNumber}}%
+      \put(270.500,785.568){\makebox(0,0)[lb]{\calibrifont\fontsize{8.5pt}{8.5pt}\selectfont Email:}}%
+      \put(302.000,784.000){\makebox(0,0)[lb]{\calibrifont\fontsize{8.5pt}{8.5pt}\selectfont \StudentEmail}}%
+      \put(450.000,785.568){\makebox(0,0)[lb]{\calibrifont\fontsize{8.5pt}{8.5pt}\selectfont Date:\ReportDate}}%
+      \put(74.340,783.585){\rule{441.766pt}{0.722pt}}%
+
+      % --- Score box ---
+      \put(99.984,756.460){\rule{0.480pt}{0.480pt}}%
+      \put(100.460,756.460){\rule{35.400pt}{0.480pt}}%
+      \put(135.860,756.460){\rule{0.480pt}{0.480pt}}%
+      \put(99.984,740.860){\rule{0.480pt}{15.600pt}}%
+      \put(135.860,740.860){\rule{0.480pt}{15.600pt}}%
+      \put(99.984,740.380){\rule{0.480pt}{0.480pt}}%
+      \put(100.460,740.380){\rule{35.400pt}{0.480pt}}%
+      \put(135.860,740.380){\rule{0.480pt}{0.480pt}}%
+      \put(99.984,724.660){\rule{0.480pt}{15.720pt}}%
+      \put(135.860,724.660){\rule{0.480pt}{15.720pt}}%
+      \put(99.984,724.180){\rule{0.480pt}{0.480pt}}%
+      \put(100.460,724.180){\rule{35.400pt}{0.480pt}}%
+      \put(135.860,724.180){\rule{0.480pt}{0.480pt}}%
+      \put(118.160,748.660){\makebox(0,0)[c]{\bfseries\fontsize{10.56pt}{10.56pt}\selectfont Score}}%
+
+      % --- Section title ---
+      \put(149.800,723.000){\makebox(0,0)[lb]{\bfseries\fontsize{14pt}{16pt}\selectfont Answers to Questions}}%
+      \put(305.800,723.450){\makebox(0,0)[lb]{\fontsize{12pt}{14pt}\selectfont (20 points)}}%
+
+      % --- Footer page number ---
+      \put(294.400,60.200){\makebox(0,0)[lb]{\calibrifont\fontsize{11pt}{11pt}\selectfont #1}}%
+    }%
+  }%
+}
+
+% Cover page with fallback warning if file not found
+\newcommand{\InsertCoverPage}{%
+  \IfFileExists{\CoverPDF}{%
+    \includepdf[pages=1,pagecommand={\thispagestyle{empty}}]{\CoverPDF}%
+  }{%
+    \thispagestyle{empty}%
+    \null\vfill
+    \begin{center}
+      {\Large Cover file not found: \texttt{\CoverPDF}}
+    \end{center}
+    \vfill\null
+  }%
+}
+
+% ============================================================
+% === DOCUMENT BEGINS ===
+% ============================================================
+\begin{document}
+
+\InsertCoverPage
+
+% === Page 2: Answers start here ===
+\clearpage
+\setcounter{page}{1}
+\PrelabPageBackground
+\PrelabPageForeground{1}
+\vspace*{2.15cm}
+\noindent\PrelabAnswerBody
+\clearpage
+
+% ============================================================
+% === MULTI-PAGE PRELAB (uncomment if needed) ===
+% ============================================================
+% Use this pattern when answers span more than one page.
+% It uses the {prelabanswers} environment for cleaner continuation.
+%
+% \newenvironment{prelabanswers}{%
+%   \begingroup
+%   \setlength{\parindent}{0pt}
+%   \setlength{\parskip}{0pt}
+%   \begin{enumerate}[leftmargin=0pt,label=(\arabic*),labelwidth=2.8em,labelsep=0.45em,itemindent=0pt,align=left,itemsep=0.20em,topsep=0pt,parsep=0pt,listparindent=0pt]
+% }{%
+%   \end{enumerate}
+%   \endgroup
+% }
+%
+% Then replace the single-page body above with:
+%
+% % === Page 2: Questions 1-2 ===
+% \clearpage
+% \setcounter{page}{1}
+% \PrelabPageBackground
+% \PrelabPageForeground{1}
+% \PrelabTitleForeground   % separate title overlay (see below)
+% \vspace*{2.15cm}
+% \noindent
+% \begin{prelabanswers}
+% \item ... question 1 ...
+% \item ... question 2 ...
+% \end{prelabanswers}
+%
+% % === Page 3: Question 3 ===
+% \clearpage
+% \PrelabPageBackground
+% \PrelabPageForeground{2}
+% \vspace*{0.45cm}          % less vspace on continuation pages
+% \noindent
+% \begin{prelabanswers}
+% \setcounter{enumi}{2}     % continue from question 2
+% \item ... question 3 ...
+% \end{prelabanswers}
+%
+% Add more pages as needed, incrementing enumi and page number.
+%
+% The separate \PrelabTitleForeground (only score box + section title,
+% without header line, for pages that are not the first answer page):
+%
+% \newcommand{\PrelabTitleForeground}{%
+%   \AddToShipoutPictureFG*{%
+%     \AtPageLowerLeft{%
+%       \put(99.984,756.460){\rule{0.480pt}{0.480pt}}%
+%       ... (same score box rules as above) ...
+%       \put(149.800,723.000){\makebox(0,0)[lb]{\bfseries\fontsize{14pt}{16pt}\selectfont Answers to Questions}}%
+%       \put(282.800,723.450){\makebox(0,0)[lb]{\fontsize{12pt}{14pt}\selectfont (20 points)}}%
+%     }%
+%   }%
+% }
+
+\end{document}

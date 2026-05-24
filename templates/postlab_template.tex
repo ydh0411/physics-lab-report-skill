@@ -1,0 +1,294 @@
+% ============================================================
+% UESTC Physics Experiments I — POSTLAB Template
+% REQUIRES: XeLaTeX (NOT pdfLaTeX)
+% ============================================================
+% Fill in YOUR info and data below, then compile twice:
+%   xelatex -interaction=nonstopmode file.tex
+%   xelatex -interaction=nonstopmode file.tex
+% ============================================================
+\documentclass[12pt,a4paper]{article}
+\usepackage{pdfpages}
+\usepackage[a4paper,top=1in,bottom=1in,left=1.25in,right=1.25in,headsep=10pt]{geometry}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage{newtxtext,newtxmath}
+  \newcommand{\tablefont}{\sffamily}
+  \newcommand{\titlefont}{\rmfamily}
+\else
+  \usepackage{fontspec}
+  \setmainfont{Times New Roman}
+  \setsansfont{Times New Roman}
+  \setmonofont{Courier New}
+  % === Choose your table font strategy ===
+  % Strategy A (clean, uniform — recommended):
+  \newfontfamily\tablefont{Times New Roman}
+  \newfontfamily\titlefont{Times New Roman}
+  \newfontfamily\watermarkfont{Times New Roman}
+  % Strategy B (Calibri tables — uncomment and comment out Strategy A):
+  % \IfFontExistsTF{Calibri}{\newfontfamily\tablefont{Calibri}}{\newfontfamily\tablefont{Arial}}
+  % \IfFontExistsTF{Calibri Light}{\newfontfamily\watermarkfont{Calibri Light}}{\newfontfamily\watermarkfont{Arial}}
+  % \newfontfamily\titlefont{Times New Roman}
+  \usepackage{newtxmath}
+\fi
+\usepackage{amsmath}
+\usepackage{array,booktabs,tabularx,longtable,float,graphicx,caption}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{eso-pic}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{setspace}
+\usepackage{indentfirst}
+
+% ---- Page layout (adjust stretch for content density) ----
+\setlength{\parindent}{2em}
+\setlength{\parskip}{1pt}                           % 0.5pt for compact
+\setstretch{1.04}                                    % 1.02 for compact/long reports
+
+% ---- Math display spacing ----
+\setlength{\abovedisplayskip}{5pt plus 1pt minus 2pt}
+\setlength{\belowdisplayskip}{5pt plus 1pt minus 2pt}
+\setlength{\abovedisplayshortskip}{4pt plus 1pt minus 2pt}
+\setlength{\belowdisplayshortskip}{4pt plus 1pt minus 2pt}
+
+% ---- Float spacing (uncomment for compact layout) ----
+% \setlength{\textfloatsep}{6pt plus 1pt minus 2pt}
+% \setlength{\floatsep}{5pt plus 1pt minus 2pt}
+% \setlength{\intextsep}{5pt plus 1pt minus 2pt}
+
+\captionsetup{font=small,labelfont=bf,skip=4pt}      % skip=2pt for compact
+
+% ---- Page style ----
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\fontsize{11pt}{11pt}\selectfont \thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{14pt}
+\setcounter{page}{1}
+
+% ============================================================
+% === FILL IN YOUR INFORMATION HERE ===
+% ============================================================
+\newcommand{\CoverPDF}{02-Template for lab report-2026.pdf}
+\newcommand{\DataPDF}{scanned-data.pdf}
+% Add figure filenames as needed:
+% \newcommand{\FigOne}{fig_example.pdf}
+% \newcommand{\FigTwo}{fig_example2.pdf}
+
+% ============================================================
+% === SECTION & TABLE MACROS (do not edit) ===
+% ============================================================
+
+% Score box in left margin
+\newcommand{\scorebox}{%
+  \begin{tabular}{|>{\centering\arraybackslash}m{16mm}|}
+  \hline
+  \textbf{Score}\\[9mm]
+  \hline
+  \end{tabular}%
+}
+
+% Section heading with score box — standard spacing
+% For compact: change vspace before to 0.35em, after to 0.4em
+\newcommand{\labsection}[2]{%
+  \par\vspace{0.5em}
+  \noindent
+  \begin{minipage}[t]{16mm}
+    \vspace{0pt}
+    \scorebox
+  \end{minipage}\hspace{6mm}%
+  \begin{minipage}[t]{\dimexpr\textwidth-22mm\relax}
+    \vspace{2mm}
+    {\bfseries\fontsize{14pt}{16pt}\selectfont #1}%
+    {\fontsize{12pt}{14pt}\selectfont\ #2}
+  \end{minipage}
+  \par\vspace{0.55em}
+}
+
+% Data table header — bold title + italic purpose
+\newcommand{\datatable}[2]{%
+  \vspace{0.35em}
+  {\titlefont\bfseries #1}\ {\titlefont\itshape #2}\par\vspace{0.25em}
+}
+
+% Appendix header
+\newcommand{\appendixhead}{%
+  \par\vspace{0.9em}
+  \begin{center}
+    {\fontsize{14pt}{16pt}\selectfont Appendix}
+  \end{center}
+  \vspace{0.4em}
+  {\bfseries\fontsize{14pt}{16pt}\selectfont (Scanned data sheets)}
+  \par\vspace{0.5em}
+}
+
+% ============================================================
+% === DOCUMENT BEGINS ===
+% ============================================================
+\begin{document}
+
+% --- Cover page ---
+\includepdf[pages=1,pagecommand={\thispagestyle{empty}}]{\CoverPDF}
+\setcounter{page}{1}
+
+% --- Watermark on all content pages ("Physics Labs 2026", plural) ---
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[
+      rotate=45,
+      text=gray!60,
+      opacity=0.45,
+      scale=5.68,
+      font=\ifPDFTeX\normalfont\else\watermarkfont\fi
+    ] at ($(current page.center)+(0.25cm,-0.35cm)$) {Physics Labs 2026};
+  \end{tikzpicture}%
+}
+
+% ============================================================
+% 1. ABSTRACT (5 points, ~100 words)
+% ============================================================
+\labsection{Abstract}{(About 100 words, 5 points)}
+
+% Template:
+% This experiment investigates/investigated [topic] using [method].
+% [Key quantities] were measured. From [data], [key result with value
+% and uncertainty]. The result [agrees with / confirms] [theory/expectation].
+% Use \textbf{key terms} in bold.
+
+% Example opening from lab5 (Polarized Light):
+% This experiment investigates the \textbf{polarization properties of light}
+% using linear polarizers, a quarter-wave plate, and a half-wave plate.
+% \textbf{Malus' law} ($I = I_0\cos^2\theta$) was verified by measuring...
+
+\vspace{2cm}  % remove when filled
+
+% ============================================================
+% 2. CALCULATIONS, RESULTS, AND COMMENTS (15 points)
+%    (or shorter: "Calculations and Results" — both acceptable)
+% ============================================================
+\labsection{Calculations, Results, and Comments}{(Calculations, data tables and figures; 15 points)}
+
+% --- Structure options ---
+% Pattern A: Data tables first → calculations (lab2, lab3)
+% Pattern B: Sample calculations first → data tables → error analysis (lab4, lab5)
+
+% --- Sample calculations ---
+% Show one complete worked example per formula.
+% Box key equations: \boxed{E = (1.54 \pm 0.03) \times 10^{11}\,\mathrm{N\,m^{-2}}}
+%
+% \textbf{1. Sample Calculations}
+% \textit{(a) Descriptive label:}
+% \[
+% \boxed{\text{key formula}}
+% \]
+% Substituting measured values: ...
+
+% --- Data tables ---
+% \datatable{DATA TABLE X-X}{(Purpose: what this measures)}
+% \begin{table}[H]
+% \centering
+% \small
+% \renewcommand{\arraystretch}{1.15}
+% \setlength{\tabcolsep}{3pt}
+% {\tablefont
+% \begin{tabular}{|...|}
+% \hline
+% ... real data only ...
+% \hline
+% \end{tabular}
+% }
+% \caption*{Unit: ... $\Delta_{\mathrm{instr.}}=...$, $\Delta_{\mathrm{read}}=...$}
+% \end{table}
+
+% --- Figures (when applicable) ---
+% \begin{figure}[H]
+% \centering
+% \includegraphics[width=0.88\textwidth]{\FigOne}
+% \caption{Descriptive caption stating both what is plotted and the key finding.}
+% \end{figure}
+
+% --- Error analysis ---
+% \textbf{3. Comments and Error Analysis}
+% Discussion of results, dominant error sources, comparison to theory.
+% List error sources with \textbf{bold labels}:
+% \begin{enumerate}[leftmargin=2em,itemsep=0.1em,topsep=0.1em]
+% \item \textbf{Angular resolution:} Polarizer scales have $\pm 1^\circ$ precision.
+% \item \textbf{Background current:} The 28.5\,\mu\text{A} intercept indicates...
+% \end{enumerate}
+
+\vspace{4cm}  % remove when filled
+
+% ============================================================
+% 3. CONCLUSIONS (10 points, ~100 words)
+% ============================================================
+\labsection{Conclusions}{(About 100 words, 10 points)}
+
+% Template:
+% [What was verified/measured] was successfully [achieved/verified].
+% The final result was \boxed{value ± uncertainty unit}.
+% The result is [reasonable / in agreement with theory].
+% The main experimental limitation is [dominant error source].
+
+% For multi-topic experiments (like lab5), use \textbf{bold sub-headings}:
+% \textbf{Malus' law} was verified: ...
+% \textbf{Quarter-wave plate:} The output polarization depends on...
+% \textbf{Half-wave plate:} The polarization direction rotates by...
+
+\vspace{3cm}  % remove when filled
+
+% ============================================================
+% 4. ANSWERS TO POSTLAB QUESTIONS (10 points)
+% ============================================================
+\labsection{Answers to Postlab Questions}{(10 points)}
+
+\begingroup
+\setstretch{1.02}
+\begin{enumerate}[leftmargin=2em,itemsep=0.25em,topsep=0.15em]
+
+\item \textbf{Question title here}
+
+% Best practice (from lab5): bold question summary as first sentence,
+% then full explanation with equations, then connection to experimental
+% observations.
+%
+% For questions that ask "how many / what value":
+% Start answer with the direct answer: \textbf{Answer: 4 times.}
+% Then explain the reasoning.
+
+\item \textbf{Question title here}
+
+% Answer here.
+
+% Add more \item as needed
+
+\end{enumerate}
+\endgroup
+
+% ============================================================
+% APPENDIX — Scanned Data Sheets
+% ============================================================
+\clearpage
+\appendixhead
+
+Scanned original data sheets used for this report:
+
+\begin{figure}[H]
+\centering
+\includegraphics[page=1,width=0.90\textwidth]{\DataPDF}
+\caption*{Scanned data sheet page 1}
+\end{figure}
+
+% For multi-page data sheets:
+% \begin{figure}[H]
+% \centering
+% \includegraphics[page=2,width=0.90\textwidth]{\DataPDF}
+% \caption*{Scanned data sheet page 2}
+% \end{figure}
+
+% Optional: signature/joke stamp at bottom right
+% \vfill
+% \hfill\includegraphics[width=2.8cm]{signature.jpg}
+
+\end{document}
