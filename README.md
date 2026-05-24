@@ -22,13 +22,27 @@ macOS 不自带 Calibri，模板默认用 **Arial** 替代，视觉差异很小�
 
 ## 安装
 
+### Claude Code
+
 ```bash
-# 克隆到 Claude Code 的 skills 目录
 mkdir -p ~/.claude/skills
 git clone https://github.com/你的用户名/physics-lab-report.git ~/.claude/skills/physics-lab-report
 ```
 
-或者直接将 `SKILL.md` 和 `templates/` 文件夹拷贝到 Claude Code 能扫描到的任意目录。
+克隆完成后重启 Claude Code 即可自动加载。也可以直接放到项目目录的 `.claude/skills/` 下。
+
+### Codex
+
+```bash
+mkdir -p ~/.agents/skills
+git clone https://github.com/你的用户名/physics-lab-report.git ~/.agents/skills/physics-lab-report
+```
+
+克隆完成后重启 Codex 即可自动加载。
+
+### 手动安装
+
+直接将 `SKILL.md` 和 `templates/` 文件夹拷贝到你的 skills 目录即可，无需 git clone。
 
 ## 快速上手
 
