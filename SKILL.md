@@ -36,8 +36,8 @@ xelatex -interaction=nonstopmode file.tex
 Both templates use these `\newcommand` variables at the top — change them for each student:
 
 ```latex
-\newcommand{\StudentNumber}{2025190907024}
-\newcommand{\StudentEmail}{2025190907024@std.uestc.edu.cn}
+\newcommand{\StudentNumber}{YOUR_STUDENT_ID}
+\newcommand{\StudentEmail}{YOUR_EMAIL}
 \newcommand{\ReportDate}{2026.X.X}        % dots format for overlay
 \newcommand{\CoverPDF}{01-Template for Prelab work-2026.pdf}
 \newcommand{\DataPDF}{scanned-data.pdf}
@@ -176,9 +176,9 @@ See `templates/prelab_template.tex`. Page structure:
 
 Header line on page 2 evolved across 5 labs:
 
-1. **lab1**: cramped, `edu,cn` typo: `UESTCStudentNumber:2025190907024Email:...edu,cn Date:2026.3.15`
-2. **lab2-4**: cramped, fixed: `UESTCStudentNumber:2025190907024Email:...edu.cnDate:2026.X.X`
-3. **lab5** (recommended): spaces added for readability: `UESTCStudentNumber: 2025190907024 Email: ...@std.uestc.edu.cn Date:2026.5.12`
+1. **lab1**: cramped, typo `edu,cn` instead of `edu.cn`, no spaces between fields
+2. **lab2-4**: cramped but typo fixed, still no spaces between fields
+3. **lab5** (recommended): spaces added between fields for readability: `UESTCStudentNumber: XXXXX Email: XXX@xxx Date:2026.X.X`
 
 The current template uses the clean lab5 spacing.
 
@@ -284,12 +284,12 @@ Only lab5-post included generated figures. Earlier labs used placeholder boxes o
 ## File Naming Convention
 
 ```
-Source:  ExperimentName_Prelab_岳东翰.tex  /  ExperimentName_Postlab_岳东翰.tex
-Output:  大物实验I-通微-2025190907024-岳东翰-labN-pre.pdf
-         大物实验I-通微-2025190907024-岳东翰-labN-post.pdf
+Source:  ExperimentName_Prelab.tex  /  ExperimentName_Postlab.tex
+Output:  大物实验I-学院-学号-姓名-labN-pre.pdf
+         大物实验I-学院-学号-姓名-labN-post.pdf
 ```
 
-Adapt school/name/ID for each student.
+Adapt the naming pattern to your school's requirements.
 
 ## Common Mistakes
 
