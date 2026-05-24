@@ -1,13 +1,13 @@
 ---
 name: physics-lab-report
-description: Use when generating UESTC Physics Experiments I/II lab reports (prelab预习报告 or postlab实验报告) with LaTeX. Covers cover-page insertion via includepdf, score-box sectioning, data-table formatting, uncertainty propagation, scanned-data appendix, and the prelab overlay technique. Also use when the user says 大物实验报告, 物理实验报告, or asks to create a physics lab report.
+description: Use when generating, auditing, or revising UESTC Physics Experiments I/II lab reports, prelab预习报告, postlab实验报告, or related LaTeX templates/skills for 大物实验报告.
 ---
 
 # UESTC Physics Lab Report Generator
 
 ## Overview
 
-Generate prelab (预习报告) and postlab (实验报告) for UESTC Physics Experiments I/II using XeLaTeX. Two distinct templates share core infrastructure: cover page via `\includepdf`, score boxes on every section, diagonal watermark, and real-data tables. The templates are designed for any UESTC student — fill in your personal info via `\newcommand` variables.
+Generate or audit prelab (预习报告) and postlab (实验报告) for UESTC Physics Experiments I/II using XeLaTeX. Two distinct templates share core infrastructure: cover page via `\includepdf`, score boxes, diagonal watermark, and real-data tables. The templates are designed for any UESTC student, but the rules must always be checked against the current school template, lab manual, scanned data, and reference reports.
 
 ## Report Types at a Glance
 
@@ -31,16 +31,23 @@ xelatex -interaction=nonstopmode file.tex
 xelatex -interaction=nonstopmode file.tex
 ```
 
-## Personal Info Variables
+## Personal Info and Inputs
 
-Both templates use these `\newcommand` variables at the top — change them for each student:
+Prelab pages after the cover need overlay variables:
 
 ```latex
-\newcommand{\StudentNumber}{YOUR_STUDENT_ID}
-\newcommand{\StudentEmail}{YOUR_EMAIL}
+\newcommand{\StudentNumber}{STUDENTID}
+\newcommand{\StudentEmail}{student@example.com}
 \newcommand{\ReportDate}{2026.X.X}        % dots format for overlay
 \newcommand{\CoverPDF}{01-Template for Prelab work-2026.pdf}
+```
+
+Postlab usually gets student identity from the filled cover PDF itself. Its working variables are normally:
+
+```latex
+\newcommand{\CoverPDF}{02-Template for lab report-2026.pdf}
 \newcommand{\DataPDF}{scanned-data.pdf}
+% optional figure PDFs generated from real data
 ```
 
 The cover page date (filled in the template PDF itself) may use `/` format (e.g., `2026/5/12`). The overlay date on prelab page 2 uses `.` format (e.g., `2026.5.12`). These can differ by a day (submission date vs. writing date).
@@ -49,7 +56,7 @@ The cover page date (filled in the template PDF itself) may use `/` format (e.g.
 
 ### 1. Real Data Only
 
-All numbers must trace to scanned data sheets, instrument specs, or textbook values. Extract data from PDFs with Python/pypdf. When data is unclear, transcribe manually — never fabricate.
+All numbers must trace to scanned data sheets, instrument specs, lab-manual values, or textbook values. Extract text with `pdftotext`/Python when possible. If a PDF is scanned and text extraction is empty, render pages with `pdftoppm` and use OCR or manual visual transcription. Never fabricate data; when data is unclear, say so or transcribe cautiously from the scan.
 
 ### 2. Cover via includepdf
 
@@ -88,7 +95,9 @@ Prelab: score box drawn in foreground overlay with `\rule` primitives.
 
 ### 5. Uncertainty Propagation
 
-Every postlab must show: Type A (from repeated measurements), Type B (instrument + reading error, rectangular distribution: divide by √3), combined propagation, final result as `\boxed{value ± uncertainty unit}`.
+Quantitative measurement postlabs must show the relevant uncertainty path: Type A when repeated measurements exist, Type B for instrument/reading error (rectangular distribution: divide by √3 when the course formula uses it), combined propagation, and final result as `\boxed{value ± uncertainty unit}`.
+
+Verification or qualitative/graph-based postlabs (e.g. oscilloscope Lissajous patterns, polarization/Malus-law plots) may not have one final Type-A/Type-B result. For those, include the measured table values, fit/deviation where applicable, instrument resolution or reading uncertainty, dominant error sources, and a clear comparison with theory.
 
 ### 6. Appendix with Scanned Originals
 
@@ -103,6 +112,28 @@ Every postlab must show: Type A (from repeated measurements), Type B (instrument
 ```
 
 Multi-page: repeat `figure[H]` per page. Some reports annotate with `Scanned data sheet: filename.pdf`.
+
+## Audit Workflow
+
+Use this when checking whether a report or this skill matches the real course materials:
+
+1. Identify the submitted file label (`labN-pre/post`) and the actual experiment number/title. Do not assume they are the same sequence.
+2. Read the current school PDF/DOCX template first: section titles, point values, cover fields, page size, score boxes, and appendix expectations override older examples.
+3. Read the lab-manual/data-table template for that experiment: required data tables, formulas, uncertainty steps, and postlab/prelab questions.
+4. Read the student's finished PDF and TeX source: check structure, data traceability, formulas, units, significant figures, final result, questions, appendix scans, watermark, and cover.
+5. Read senior/reference reports only as style and completeness examples. Older point values or section names are not authoritative if the current template differs.
+6. Cross-check every reported number against scanned data sheets, generated figures, or textbook/lab-manual values.
+7. Compile the TeX in a clean temporary directory with all referenced assets. Report missing dependencies, LaTeX errors, or template rules that cannot reproduce the PDF.
+
+Known local label mapping from the completed reports:
+
+| Submission label | Actual course experiment |
+|---|---|
+| lab1 | Experiment 1, Measurement of Resistance by Ammeter-Voltmeter Method |
+| lab2 | Experiment 3, The Oscilloscope |
+| lab3 | Experiment 6, Newton's Rings |
+| lab4 | Experiment 4, Young's Modulus of Wire by Elongating |
+| lab5 | Experiment 7, Polarized Light |
 
 ## Font Strategies
 
@@ -220,7 +251,7 @@ Sample calculations should:
 - Box key formulas with `\boxed{}`
 - Show one complete worked example per formula
 - Include substitution of real measured values
-- State the final propagated uncertainty
+- State the final propagated uncertainty when the experiment requires a final uncertainty result
 
 Data tables:
 - Start with `\small`, drop to `\footnotesize` or `\scriptsize` for wide tables
@@ -258,7 +289,13 @@ Multi-page data sheets: one `figure[H]` per page. Some reports include a small s
 
 ## Data Extraction Scripts
 
-Python with pypdf for bulk data extraction from textbook/data-sheet PDFs:
+Try direct text extraction first:
+
+```bash
+pdftotext -layout data.pdf data.txt
+```
+
+For text-based PDFs, Python/pypdf can also work:
 
 ```python
 from pypdf import PdfReader
@@ -267,7 +304,14 @@ for i, page in enumerate(reader.pages):
     text = page.extract_text()
 ```
 
-Scripts live alongside the working directory.
+For scanned PDFs or textbook pages where extracted text is empty, render and inspect/OCR:
+
+```bash
+pdftoppm -png -r 180 -f 1 -l 3 data.pdf page
+tesseract page-1.png page-1 -l eng
+```
+
+Scripts may live alongside the working directory.
 
 ## Figure Generation
 
@@ -299,7 +343,10 @@ Adapt the naming pattern to your school's requirements.
 | Missing watermark on postlab | `\AddToShipoutPictureBG` after `\includepdf`, before first section |
 | Single XeLaTeX pass | Two passes for cross-refs and page numbers |
 | Fabricating data | Every value must be on a scanned data sheet or instrument spec |
+| Assuming lab file number equals experiment number | Check the actual title and DATA TABLE numbers |
+| Treating old senior reports as current rules | Current school templates override older point values |
 | Wrong cover PDF filename | Match `\CoverPDF` exactly to file in working directory |
+| Missing TeX dependencies during rebuild | Copy cover PDFs, data PDFs, figures, and signature images into the compile directory |
 | Table exceeds margin | Reduce `\tabcolsep`, use smaller font, or rotate: `\scriptsize` + `\tabcolsep=2pt` |
 | Prelab overlay misalignment | Don't change `\setlength{\unitlength}{1pt}` or geometry |
 | Missing `\setcounter{page}{1}` after cover | Page numbering starts from cover |
