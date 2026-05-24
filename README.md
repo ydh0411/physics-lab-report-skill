@@ -1,139 +1,133 @@
-# Physics Lab Report — Claude Code Skill
+# 大学物理实验 LaTeX 报告 Skill
 
-使用 XeLaTeX 生成大学物理实验报告（预习报告 + 实验报告）。包含封面插入、计分框分区、数据表格格式化、不确定度传递、原始数据附录等完整模板。
+面向 `Claude Code`、`Codex` 及同类智能编程代理的 skill 仓库，用于根据实验数据和课程要求生成符合规范的 LaTeX 实验报告（预习报告 + 正式报告）。
 
-## 效果概览
+仓库提供两套 LaTeX 模板：预习报告模板（封面叠加层 + 计分框 + 预习题答案）和正式报告模板（摘要、计算与数据表格、结论、课后题、原始数据附录）。两份模板均基于多份实际提交报告迭代提炼而成。
 
-| 预习报告 | 实验报告 |
-|---------|---------|
-| 封面 PDF → 叠加层（学号/邮箱/日期/计分框）→ 预习题答案 | 封面 PDF → 摘要 → 计算与数据表格 → 结论 → 课后题 → 附录（扫描数据） |
-| "Physics Lab 2026" 水印（单数） | "Physics Labs 2026" 水印（复数） |
+GitHub 仓库地址：
 
-## 环境要求
+`https://github.com/tangentiiii/physics-lab-report-skill`
 
-- **XeLaTeX**（不能用 pdfLaTeX）—— 模板使用 `fontspec` 加载 Times New Roman / Calibri 系统字体
-- LaTeX 宏包：`pdfpages`、`fontspec`、`newtxmath`、`amsmath`、`tikz`、`eso-pic`、`fancyhdr`、`enumitem`、`setspace`、`booktabs`、`caption`
-- Python 3 + `pypdf` + `matplotlib`（可选，用于数据提取和图表生成）
-- 学校提供的封面模板 PDF（如 UESTC 的 `01-Template for Prelab work-2026*.pdf` 和 `02-Template for lab report-2026*.pdf`）
+## 功能概览
 
-### macOS 字体说明
+- 预习报告模板：`\includepdf` 插入封面 → 绝对坐标叠加层（学号/邮箱/日期/计分框）→ 预习题答案枚举
+- 正式报告模板：封面 → 摘要（5分）→ 计算与数据表格（15分）→ 结论（10分）→ 课后题（10分）→ 扫描原始数据附录
+- `\labsection` 宏自动为每节生成左侧计分框
+- `\datatable` 宏统一数据表标题格式
+- "Physics Lab(s) 2026" 对角水印
+- 标准间距和紧凑间距两套参数，按报告篇幅切换
+- 两种字体策略：全 Times New Roman 简洁风格，或 Calibri 表格风格
+- 使用 XeLaTeX 编译，macOS 自动用 Arial 替代 Calibri
 
-macOS 不自带 Calibri，模板默认用 **Arial** 替代，视觉差异很小。Windows 用户安装 Microsoft Office 后自带 Calibri，无需额外配置。
-
-## 安装
+## 安装方式
 
 ### Claude Code
 
 ```bash
 mkdir -p ~/.claude/skills
-git clone https://github.com/你的用户名/physics-lab-report.git ~/.claude/skills/physics-lab-report
+git clone --depth=1 https://github.com/tangentiiii/physics-lab-report-skill.git \
+  ~/.claude/skills/physics-lab-report-skill
 ```
-
-克隆完成后重启 Claude Code 即可自动加载。也可以直接放到项目目录的 `.claude/skills/` 下。
 
 ### Codex
 
 ```bash
-mkdir -p ~/.agents/skills
-git clone https://github.com/你的用户名/physics-lab-report.git ~/.agents/skills/physics-lab-report
+mkdir -p ~/.codex/skills
+git clone --depth=1 https://github.com/tangentiiii/physics-lab-report-skill.git \
+  ~/.codex/skills/physics-lab-report-skill
 ```
 
-克隆完成后重启 Codex 即可自动加载。
+安装后重启代理使其重新发现新 skill。已安装的可进入对应目录执行 `git pull` 更新。
 
-### 手动安装
+## 使用方式
 
-直接将 `SKILL.md` 和 `templates/` 文件夹拷贝到你的 skills 目录即可，无需 git clone。
+安装 skill 后，将封面模板 PDF、实验数据扫描件和 `.tex` 模板放在同一工作目录，然后直接对话即可：
 
-## 快速上手
+- "帮我生成 lab5 偏振光的预习报告"
+- "根据这份数据扫描件生成正式实验报告"
+- "先整理数据表让我确认，再继续写报告"
+- "用紧凑间距模板，表格字体用 Calibri"
 
-### 1. 生成预习报告
+也可以显式调用：
 
-```bash
-cp ~/.claude/skills/physics-lab-report/templates/prelab_template.tex ./labN_pre.tex
+```text
+使用 physics-lab-report-skill 生成 LaTeX 实验报告
 ```
 
-编辑 `labN_pre.tex`：
-- 填写 `\StudentNumber`、`\StudentEmail`、`\ReportDate`
-- 设置 `\CoverPDF` 为封面模板文件名
-- 在 `\PrelabAnswerBody` 里写入预习题答案
+## 用户需要额外提供什么
 
-```bash
-xelatex -interaction=nonstopmode labN_pre.tex
-xelatex -interaction=nonstopmode labN_pre.tex   # 两遍编译
-```
+skill 仓库提供 LaTeX 模板，用户需要在当前工作目录额外放入：
 
-### 2. 生成实验报告
+- 学校下发的封面模板 PDF（`01-Template for Prelab work-2026*.pdf` / `02-Template for lab report-2026*.pdf`）
+- 实验原始数据扫描件（手写数据表照片或 PDF）
+- 如有实验指导书或教师补充 PPT，一并放入
 
-```bash
-cp ~/.claude/skills/physics-lab-report/templates/postlab_template.tex ./labN_post.tex
-```
+## 推荐工作流
 
-编辑 `labN_post.tex`：
-- 填写个人信息
-- 设置 `\CoverPDF` 和 `\DataPDF`（原始数据扫描件）
-- 填写四个部分：摘要、计算与结果、结论、课后题答案
-- 附录自动引用 `\DataPDF`
+1. 在一个工作文件夹中放入封面模板、数据扫描件和相关资料
+2. 让代理使用本 skill，先识别并展示 `data.tex`，确认数据无误
+3. 确认后让代理生成完整 `.tex` 文件
+4. 用 XeLaTeX 编译两遍：`xelatex -interaction=nonstopmode file.tex`
+5. 或直接上传到 Overleaf（切换编译器为 XeLaTeX）
 
-```bash
-xelatex -interaction=nonstopmode labN_post.tex
-xelatex -interaction=nonstopmode labN_post.tex
-```
+## 输出结果通常包含什么
 
-### 3. 直接让 Claude 帮你写
+- `report.tex` — 主报告文件
+- `data.tex` — 整理后的实验数据表（如适用）
+- `figures/` — matplotlib 生成的矢量图（如适用）
+- 编译产物 `report.pdf`（本地有 XeLaTeX 工具链时）
 
-安装 skill 后，直接对话即可：
+## 仓库结构
 
-> "帮我生成 lab5 偏振光的预习报告，数据表 PDF 在这里"
-
-Claude 会自动加载 skill、使用模板、生成 `.tex` 文件。
-
-## 文件结构
-
-```
-physics-lab-report/
-├── SKILL.md                          # Skill 定义（Claude Code 加载此文件）
-├── README.md                         # 本文件
-├── LICENSE                           # MIT
+```text
+physics-lab-report-skill/
+├── SKILL.md                    # Skill 定义文件
+├── README.md                   # 本文件
+├── LICENSE                     # MIT
+├── .gitignore
 └── templates/
-    ├── prelab_template.tex           # 预习报告 LaTeX 模板
-    └── postlab_template.tex          # 实验报告 LaTeX 模板
+    ├── prelab_template.tex     # 预习报告模板
+    └── postlab_template.tex    # 正式报告模板
 ```
 
-## 核心特性
+## 设计原则
 
-- **真实数据** —— 所有数值必须来自原始数据扫描件或仪器规格，绝不编造
-- **封面用 `\includepdf` 插入** —— 不在 LaTeX 里重绘封面，直接插入学校提供的模板 PDF
-- **每节带计分框** —— 与教师评分表的格式一致
-- **不确定度传递** —— A 类（统计）+ B 类（仪器+读数，矩形分布除以 √3），合并给出最终结果
-- **原始数据附录** —— 手写数据扫描件放在报告末尾
-- **两种字体策略** —— 全 Times New Roman 简洁风格，或 Calibri 表格匹配 Word 模板
-- **标准/紧凑两套间距** —— 根据报告篇幅选择
+- 所有数值必须来自原始数据扫描件或仪器规格，绝不编造
+- 封面通过 `\includepdf` 插入学校模板 PDF，不在 LaTeX 中重绘
+- 每节带计分框，与教师评分表格式一致
+- 不确定度传递包含 A 类（统计）和 B 类（仪器+读数，矩形分布除以 √3）
+- 数据识别保守，不能擅自编造、修正或补全模糊数据
+- 封面日期可用 `/` 格式，叠加层日期用 `.` 格式
+- 预习报告水印为 "Physics Lab 2026"（单数），正式报告为 "Physics Labs 2026"（复数）
 
 ## 适配其他学校
 
-模板基于 UESTC 大学物理实验 I 构建，但核心模式通用：
+模板基于 UESTC 大学物理实验 I 构建，核心结构通用：
 
-1. **换封面**：修改 `\CoverPDF` 为你学校的模板文件名
-2. **换头部信息**：编辑 `\PrelabPageForeground` 里的叠加坐标和文字
-3. **换分区名称/分值**：修改 postlab 模板中的 `\labsection` 调用
-4. **换水印文字**：在模板中搜索 `Physics Lab` 替换
+1. 修改 `\CoverPDF` 为你的封面模板文件名
+2. 编辑 `\PrelabPageForeground` 中的叠加坐标和文字
+3. 修改 `\labsection` 调用中的分区名称和分值
+4. 替换模板中的水印文字
 
-计分框、数据表格、不确定度传递、水印、附录这些基础结构适用于任何使用 LaTeX 的物理实验课程。
+计分框、数据表格、不确定度传递、附录结构适用于任何使用 LaTeX 的物理实验课程。
 
 ## 常见问题
 
-**Q: 为什么必须用 XeLaTeX？**
-A: 模板用 `fontspec` 加载 Times New Roman / Calibri 系统字体，pdfLaTeX 不支持。`iftex` 宏包会在用错编译器时给出警告。
+**为什么必须用 XeLaTeX？** 模板用 `fontspec` 加载 Times New Roman / Calibri 系统字体，pdfLaTeX 不支持。
 
-**Q: Mac 上 Calibri 显示为 Arial，有问题吗？**
-A: 没问题。视觉差异很小。如果你装了 Microsoft Office，模板会自动使用 Calibri。
+**Mac 上 Calibri 显示为 Arial？** 视觉差异很小，如有 Office 则自动使用 Calibri。
 
-**Q: 预习报告叠加层位置不对怎么办？**
-A: 不要改 `\setlength{\unitlength}{1pt}` 和 geometry 设置。如果换了封面模板 PDF，需要微调 `\PrelabPageForeground` 里的叠加坐标（单位是 pt，原点在左下角）。
+**预习报告叠加层错位？** 不要改 `\setlength{\unitlength}{1pt}` 和 geometry。如果换了封面模板，需微调 `\PrelabPageForeground` 中的叠加坐标。
 
-**Q: 能用 Overleaf 吗？**
-A: 可以，但需要把编译器切换为 XeLaTeX（Menu → Compiler → XeLaTeX），并把封面模板 PDF 一起上传。
+**能用 Overleaf 吗？** 可以，编译器切换为 XeLaTeX，封面模板 PDF 一并上传。
 
-## 许可证
+## 更新
+
+```bash
+cd ~/.claude/skills/physics-lab-report-skill
+git pull origin main
+```
+
+## License
 
 MIT — 详见 [LICENSE](LICENSE)。
