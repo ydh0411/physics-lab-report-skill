@@ -6,7 +6,7 @@
 
 GitHub 仓库地址：
 
-`https://github.com/tangentiiii/physics-lab-report-skill`
+`https://github.com/ydh0411/physics-lab-report-skill`
 
 ## 功能概览
 
@@ -25,7 +25,7 @@ GitHub 仓库地址：
 
 ```bash
 mkdir -p ~/.claude/skills
-git clone --depth=1 https://github.com/tangentiiii/physics-lab-report-skill.git \
+git clone --depth=1 https://github.com/ydh0411/physics-lab-report-skill.git \
   ~/.claude/skills/physics-lab-report-skill
 ```
 
@@ -33,7 +33,7 @@ git clone --depth=1 https://github.com/tangentiiii/physics-lab-report-skill.git 
 
 ```bash
 mkdir -p ~/.codex/skills
-git clone --depth=1 https://github.com/tangentiiii/physics-lab-report-skill.git \
+git clone --depth=1 https://github.com/ydh0411/physics-lab-report-skill.git \
   ~/.codex/skills/physics-lab-report-skill
 ```
 
