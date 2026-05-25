@@ -1,53 +1,125 @@
-# 大学物理实验 LaTeX 报告 Skill
+<p align="center">
+  <img src="https://img.shields.io/badge/LaTeX-XeLaTeX-008080?style=for-the-badge&logo=latex" alt="XeLaTeX">
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="MIT License">
+  <img src="https://img.shields.io/badge/UESTC-Glasgow%20College-005bac?style=for-the-badge" alt="UESTC">
+  <img src="https://img.shields.io/badge/Platform-Claude%20Code%20%7C%20Codex-blueviolet?style=for-the-badge" alt="Platform">
+</p>
 
-基于**电子科技大学格拉斯哥学院（UESTC Glasgow College）**大学物理实验 I/II 课程，面向 `Claude Code`、`Codex` 及同类智能编程代理的 skill 仓库，用于根据实验数据和课程要求生成、审计和修订符合规范的 LaTeX 实验报告（预习报告 + 正式报告）。
+<h1 align="center">Physics Lab Report Skill</h1>
+<h3 align="center">大学物理实验 LaTeX 报告生成器</h3>
 
-仓库提供两套 LaTeX 模板：预习报告模板（封面叠加层 + 计分框 + 预习题答案）和正式报告模板（摘要、计算与数据表格、结论、课后题、原始数据附录）。同时提供一套审计流程，用于对照学校模板、实验书、原始数据扫描件和学长参考报告，检查报告或 skill 规则是否可靠。
+<p align="center">
+  <b>电子科技大学格拉斯哥学院</b> · UESTC Physics Experiments I & II<br>
+  对话式生成预习报告 & 正式报告 · 支持 Claude Code / Codex / 兼容代理
+</p>
 
-GitHub 仓库地址：
+---
 
-`https://github.com/ydh0411/physics-lab-report-skill`
+## 目录
+
+- [学生使用流程](#学生使用流程)
+- [功能概览](#功能概览)
+- [安装](#安装)
+- [使用示例](#使用示例)
+- [审计工作流](#审计工作流)
+- [仓库结构](#仓库结构)
+- [设计原则](#设计原则)
+- [适配其他学校](#适配其他学校)
+- [FAQ](#faq)
+
+---
 
 ## 学生使用流程
 
-### 首次设置（每学期一次）
+> **一句话：** 首次设置填一次信息 → 每次报告输入实验标题和数据 → 生成 PDF 直接提交。
 
-1. 放入学校下发的封面模板 PDF（`01-Template for Prelab work-2026*.pdf` / `02-Template for lab report-2026*.pdf`）
-2. 复制 `config/student_profile.example.yaml` 为 `student_profile.yaml`，填写姓名、学号、邮箱、学院、专业、班级、教师、助教
-3. 复制 `config/naming.example.yaml` 为 `naming.yaml`，按课程要求设置 PDF 命名格式
-4. 确认课程/教材版本
+### 首次设置
 
-配置文件填写一次后自动复用，无需每次重复提供。
+*每学期只做一次。*
+
+| 步骤 | 操作 |
+|:---:|---|
+| 1 | 放入封面模板 PDF（`01-Template for Prelab work-2026*.pdf` / `02-Template for lab report-2026*.pdf`） |
+| 2 | 复制 `config/student_profile.example.yaml` → `student_profile.yaml`，填写个人信息 |
+| 3 | 复制 `config/naming.example.yaml` → `naming.yaml`，设置 PDF 提交命名格式 |
+| 4 | 确认课程/教材版本 |
 
 ### 每次报告
 
-1. 告诉 skill 是**预习报告**（prelab）还是**正式报告**（postlab）
-2. 输入**完整实验标题**（如 "Polarization of Light / 偏振光"）
-3. 输入 lab 编号（仅用于封面和文件名，实验内容以标题为准）
-4. **手动输入**实验原始数据（推荐方式，减少 OCR 识别误差）
-5. （可选）上传教师特殊公式模板或数据处理要求
-6. （可选）上传已完成的扫描数据表（含教师签名，如有）
-7. 生成最终 PDF
+| 步骤 | 操作 | 必需 |
+|:---:|------|:---:|
+| 1 | 选择 **prelab**（预习）或 **postlab**（正式） | 是 |
+| 2 | 输入完整实验标题（如 Polarization of Light / 偏振光） | 是 |
+| 3 | 输入 lab 编号（仅用于封面和文件名） | 是 |
+| 4 | 手动输入实验原始数据 | 推荐 |
+| 5 | 上传教师特殊公式/数据处理模板 | 视情况 |
+| 6 | 上传已完成签名的扫描数据表 | 视情况 |
+| 7 | 生成最终 PDF | — |
 
-Skill 会自动使用已保存的模板、个人信息、命名规则和实验参考文件。
+> Skill 自动加载已保存的模板、个人信息和命名规则。**数据输入优先手动**，OCR 仅作备选。
 
 ### 更新配置
 
 模板更换、个人信息变动、命名规则调整、课程版本更新时，修改对应 config 文件或重新上传模板即可。
 
+---
+
 ## 功能概览
 
-- 预习报告模板：`\includepdf` 插入封面 → 绝对坐标叠加层（学号/邮箱/日期/计分框）→ 预习题答案枚举
-- 正式报告模板：封面 → 摘要（5分）→ 计算与数据表格（15分）→ 结论（10分）→ 课后题（10分）→ 扫描原始数据附录
-- 报告审计流程：学校 PDF/DOCX 模板 → 实验书/数据表 → 学生 PDF/TeX → 原始扫描数据 → 学长参考 → 可复现编译
-- `\labsection` 宏自动为每节生成左侧计分框
-- `\datatable` 宏统一数据表标题格式
-- "Physics Lab(s) 2026" 对角水印
-- 标准间距和紧凑间距两套参数，按报告篇幅切换
-- 两种字体策略：全 Times New Roman 简洁风格，或 Calibri 表格风格
-- 使用 XeLaTeX 编译，macOS 可用 Arial 替代 Calibri
+<table>
+<tr>
+<td width="50%">
 
-## 安装方式
+#### 预习报告
+`\includepdf` 插入封面 → 绝对坐标叠加层（学号/邮箱/日期/计分框）→ 预习题答案枚举
+
+#### 正式报告
+封面 → 摘要(5分) → 计算与数据表格(15分) → 结论(10分) → 课后题(10分) → 原始数据附录
+
+</td>
+<td width="50%">
+
+#### 一键编译
+`build_report.sh`：检查 XeLaTeX → 编译两遍 → 清理辅助文件 → 重命名输出 PDF
+
+#### 自动计分框
+`\labsection{标题}{分值}` 自动为每节生成左侧评分框，与教师评分表一致
+
+</td>
+</tr>
+<tr>
+<td>
+
+#### 数据表格
+`\datatable{标题}{说明}` 统一格式，支持 `\small` ~ `\scriptsize` 多级缩放
+
+</td>
+<td>
+
+#### 对角水印
+"Physics Lab 2026"（预报告，单数） / "Physics Labs 2026"（正式报告，复数）
+
+</td>
+</tr>
+<tr>
+<td>
+
+#### 间距 & 字体
+标准/紧凑两套间距参数 · Times New Roman / Calibri 两种字体策略 · macOS 自动降级 Arial
+
+</td>
+<td>
+
+#### 不确定度 & 误差
+Type-A/Type-B 不确定度传递，仪器分辨率、读数误差、主要误差源分析
+
+</td>
+</tr>
+</table>
+
+---
+
+## 安装
 
 ### Claude Code
 
@@ -65,119 +137,124 @@ git clone --depth=1 https://github.com/ydh0411/physics-lab-report-skill.git \
   ~/.codex/skills/physics-lab-report
 ```
 
-安装后重启代理使其重新发现新 skill。已安装的可进入对应目录执行 `git pull` 更新。
+安装后重启代理。更新：`cd ~/.claude/skills/physics-lab-report && git pull`
 
-## 使用方式
+---
 
-安装 skill 后，将封面模板 PDF、实验数据扫描件和 `.tex` 模板放在同一工作目录，然后直接对话即可：
+## 使用示例
 
-- "帮我生成 lab5 偏振光的预习报告"
-- "根据这份数据扫描件生成正式实验报告"
-- "完整检查我的报告、学长报告、学校模板、实验书和数据，看 skill 有没有问题"
-- "先整理数据表让我确认，再继续写报告"
-- "用紧凑间距模板，表格字体用 Calibri"
+直接对话即可，无需显式调用。典型 prompt：
 
-也可以显式调用：
+| 场景 | 对话 |
+|------|------|
+| 预习报告 | "帮我生成 lab5 偏振光的预习报告" |
+| 正式报告 | "根据这份数据扫描件生成正式实验报告" |
+| 分步确认 | "先整理数据表让我确认，再继续写报告" |
+| 自定义样式 | "用紧凑间距模板，表格字体用 Calibri" |
+| 完整审计 | "完整审计我的报告，对照学校模板、实验书和原始数据" |
 
-```text
-使用 physics-lab-report-skill 生成 LaTeX 实验报告
+编译 PDF：
+
+```bash
+scripts/build_report.sh report.tex "大物实验I-格院-2024XXXXXXXX-张三-lab5-post.pdf"
 ```
 
-## 用户需要额外提供什么
+> 也可上传到 Overleaf，编译器切换为 XeLaTeX。
 
-skill 仓库提供 LaTeX 模板，用户需要在当前工作目录额外放入：
-
-- 学校下发的封面模板 PDF（`01-Template for Prelab work-2026*.pdf` / `02-Template for lab report-2026*.pdf`）
-- 实验原始数据扫描件（手写数据表照片或 PDF）
-- 学校给的实验数据表/公式模板（如 DOCX/PDF）
-- 如有实验指导书、教师补充 PPT 或学长参考报告，一并放入
-
-## 推荐工作流
-
-1. 在一个工作文件夹中放入封面模板、数据扫描件和相关资料
-2. 让代理使用本 skill，先识别并展示 `data.tex`，确认数据无误
-3. 确认后让代理生成完整 `.tex` 文件
-4. 用 XeLaTeX 编译两遍：`xelatex -interaction=nonstopmode file.tex`
-5. 或直接上传到 Overleaf（切换编译器为 XeLaTeX）
+---
 
 ## 审计工作流
 
-当目标是检查报告或检查本 skill 是否写对时，按下面顺序读材料：
+> 目标：检查报告或 skill 规则是否与课程材料一致。
 
-1. 先确认提交文件名中的 `labN` 和实际实验编号/实验题目，二者不一定一致
-2. 读取当前学校 PDF/DOCX 模板，确认封面字段、分区标题、分值和附录要求
-3. 读取实验书或学校给的数据表/公式模板，确认必填数据、公式和问题
-4. 读取学生已完成的 PDF 和 TeX 源文件，检查结构、公式、单位、有效数字、图表、附录和水印
-5. 读取原始扫描数据，逐项核对报告里的数值来源
-6. 读取学长报告作为风格和完整度参考，但旧模板分值不能覆盖当前模板
-7. 在干净临时目录中复制封面、数据 PDF、图像和签名等依赖，重新编译验证可复现性
+| 步骤 | 内容 |
+|:---:|---|
+| 1 | 确认 `labN` 与实际实验编号/标题的对应关系（二者不一定一致，标题为主键） |
+| 2 | 阅读学校 PDF/DOCX 模板，确认封面字段、分区标题、分值 |
+| 3 | 阅读实验书/数据表模板，确认公式、表格和习题 |
+| 4 | 阅读学生 PDF 与 TeX 源文件，检查结构、公式、单位、有效数字 |
+| 5 | 逐项核对报告数值与原始扫描数据 |
+| 6 | 学长报告仅作风格参考，旧模板分值不覆盖当前要求 |
+| 7 | 干净目录中复制依赖重新编译，验证可复现性 |
 
-## 输出结果通常包含什么
-
-- `report.tex` — 主报告文件
-- `data.tex` — 整理后的实验数据表（如适用）
-- `figures/` — matplotlib 生成的矢量图（如适用）
-- 编译产物 `report.pdf`（本地有 XeLaTeX 工具链时）
+---
 
 ## 仓库结构
 
-```text
+```
 physics-lab-report-skill/
-├── SKILL.md                    # Skill 定义文件
-├── README.md                   # 本文件
-├── LICENSE                     # MIT
+├── SKILL.md                           # Skill 定义（编译、模板、字体、审计规则）
+├── README.md
+├── LICENSE                            # MIT
 ├── .gitignore
 ├── config/
-│   ├── student_profile.example.yaml  # 学生信息模板
-│   └── naming.example.yaml           # PDF命名规则模板
+│   ├── student_profile.example.yaml   # 学生信息模板
+│   └── naming.example.yaml            # PDF 命名规则模板
 ├── scripts/
-│   └── build_report.sh               # PDF编译脚本
+│   └── build_report.sh                # PDF 一键编译脚本
 ├── references/
-│   └── experiments/                  # 实验知识库（按标题索引）
+│   └── experiments/                   # 实验知识库扩展点（按标题索引）
 └── templates/
-    ├── prelab_template.tex     # 预习报告模板
-    └── postlab_template.tex    # 正式报告模板
+    ├── prelab_template.tex            # 预习报告 LaTeX 模板
+    └── postlab_template.tex           # 正式报告 LaTeX 模板
 ```
+
+---
 
 ## 设计原则
 
-- 所有数值必须来自原始数据扫描件或仪器规格，绝不编造
-- 封面通过 `\includepdf` 插入学校模板 PDF，不在 LaTeX 中重绘
-- 每节带计分框，与教师评分表格式一致
-- 定量测量型实验应包含合适的不确定度传递；验证型或图像拟合型实验至少要说明仪器分辨率、读数误差、拟合/偏差和主要误差源
-- 数据识别保守，不能擅自编造、修正或补全模糊数据
-- 扫描 PDF 如无法直接抽取文本，应先渲染页面，再 OCR 或人工读图核对
-- 封面日期可用 `/` 格式，叠加层日期用 `.` 格式
-- 预习报告水印为 "Physics Lab 2026"（单数），正式报告为 "Physics Labs 2026"（复数）
+| 原则 | 说明 |
+|------|------|
+| 数据溯源 | 所有数值来自原始扫描数据或仪器规格，绝不编造 |
+| 缺材料降级 | 缺模板 → 仅生成草稿；缺数据 → 不生成报告；缺题目 → 留占位符（详见 SKILL.md） |
+| 签名处理 | 学生手填数据表 → 教师签字 → 扫描 → skill 附加到附录，不自动放置签名 |
+| 公式灵活 | 课本公式 > 教师模板 > 复用已保存模板，三种来源自动适配 |
+| 封面插入 | `\includepdf` 插入学校 PDF 模板，不在 LaTeX 中重绘 |
+| 手动优先 | 数据输入优先手动，OCR 仅为备选，计算前所有值需用户确认 |
+
+---
 
 ## 适配其他学校
 
-模板基于 UESTC 大学物理实验 I 构建，核心结构通用：
+核心结构通用，修改以下内容即可：
 
-1. 修改 `\CoverPDF` 为你的封面模板文件名
-2. 编辑 `\PrelabPageForeground` 中的叠加坐标和文字
-3. 修改 `\labsection` 调用中的分区名称和分值
-4. 替换模板中的水印文字
+| 修改项 | 位置 |
+|--------|------|
+| 封面模板文件名 | `\CoverPDF` |
+| 叠加层坐标与文字 | `\PrelabPageForeground` |
+| 分区名称与分值 | `\labsection` 调用处 |
+| 水印文字 | 模板末尾 |
 
-计分框、数据表格、不确定度传递、附录结构适用于任何使用 LaTeX 的物理实验课程。
+---
 
-## 常见问题
+## FAQ
 
-**为什么必须用 XeLaTeX？** 模板用 `fontspec` 加载 Times New Roman / Calibri 系统字体，pdfLaTeX 不支持。
+<details open>
+<summary><b>为什么必须用 XeLaTeX？</b></summary>
 
-**Mac 上 Calibri 显示为 Arial？** 视觉差异很小，如有 Office 则自动使用 Calibri。
+模板使用 `fontspec` 加载系统字体（Times New Roman / Calibri），pdfLaTeX 不支持。
+</details>
 
-**预习报告叠加层错位？** 不要改 `\setlength{\unitlength}{1pt}` 和 geometry。如果换了封面模板，需微调 `\PrelabPageForeground` 中的叠加坐标。
+<details>
+<summary><b>Mac 上 Calibri 显示为 Arial？</b></summary>
 
-**能用 Overleaf 吗？** 可以，编译器切换为 XeLaTeX，封面模板 PDF 一并上传。
+视觉差异极小。安装了 Office 的 Mac 会自动使用 Calibri。
+</details>
 
-## 更新
+<details>
+<summary><b>预习报告叠加层错位？</b></summary>
 
-```bash
-cd ~/.claude/skills/physics-lab-report
-git pull origin main
-```
+不要修改 `\setlength{\unitlength}{1pt}` 和 geometry。更换封面模板后，微调 `\PrelabPageForeground` 坐标即可。
+</details>
 
-## License
+<details>
+<summary><b>能用 Overleaf 吗？</b></summary>
 
-MIT — 详见 [LICENSE](LICENSE)。
+可以，编译器切换为 XeLaTeX，封面模板 PDF 一并上传。
+</details>
+
+---
+
+<p align="center">
+  <sub>MIT License · <a href="https://github.com/ydh0411/physics-lab-report-skill">GitHub</a> · Made for UESTC Glasgow College</sub>
+</p>
