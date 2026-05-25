@@ -9,6 +9,43 @@ description: Use when generating, auditing, or revising UESTC Physics Experiment
 
 Generate or audit prelab (预习报告) and postlab (实验报告) for UESTC Physics Experiments I/II using XeLaTeX. Two distinct templates share core infrastructure: cover page via `\includepdf`, score boxes, diagonal watermark, and real-data tables. The templates are designed for any UESTC student, but the rules must always be checked against the current school template, lab manual, scanned data, and reference reports.
 
+## Work Modes
+
+This skill supports three modes of operation:
+
+### First-Time Setup
+
+Run once at the start of the semester. The student provides stable information that is reused for every report:
+
+1. Upload prelab and postlab cover template PDFs
+2. Confirm student profile (name, student ID, email, college, major, class, instructor, TA) — see `config/student_profile.example.yaml`
+3. Set PDF naming format for submission — see `config/naming.example.yaml`
+4. Confirm course/textbook version
+
+After setup, config files and templates are reused automatically. To change stable info later, use Update Mode.
+
+### Regular Generation
+
+What the student does for each report:
+
+1. Choose **prelab** or **postlab**
+2. Provide the **full experiment title** (e.g. "Polarization of Light")
+3. Provide the **lab number** (for cover page, filename, and submission order only)
+4. **Manually input experimental data** (recommended; see Data Input below)
+5. Optionally upload a teacher-specific formula template or data-processing sheet
+6. Optionally upload the completed scanned data sheet for the appendix
+7. Skill generates `.tex` source and compiles to final PDF
+
+### Update Mode
+
+Used when stable information changes:
+
+- Update cover template PDFs
+- Update student profile (new instructor, TA, etc.)
+- Update PDF naming rules
+- Update course/textbook version
+- Update experiment formula templates or reference files
+
 ## Report Types at a Glance
 
 | | Prelab | Postlab |
@@ -26,14 +63,26 @@ Generate or audit prelab (预习报告) and postlab (实验报告) for UESTC Phy
 
 **Must use XeLaTeX** (not pdfLaTeX). Two passes required. Work in a single directory containing all `.tex`, cover PDFs, data PDFs, and figure PDFs.
 
+Use the provided build script for a one-command PDF-first workflow:
+
+```bash
+bash scripts/build_report.sh file.tex "final_submission_name.pdf"
+```
+
+Or compile manually:
+
 ```bash
 xelatex -interaction=nonstopmode file.tex
 xelatex -interaction=nonstopmode file.tex
 ```
 
+The build script also checks XeLaTeX availability, cleans auxiliary files, and renames the output PDF. Overleaf is a fallback option if XeLaTeX is not installed locally.
+
 ## Personal Info and Inputs
 
-Prelab pages after the cover need overlay variables:
+After first-time setup, student identity comes from `config/student_profile.yaml`. The skill loads it automatically; the student does not need to re-enter it for each report.
+
+For one-off use without config files, prelab pages after the cover need overlay variables:
 
 ```latex
 \newcommand{\StudentNumber}{STUDENTID}
@@ -99,6 +148,12 @@ Quantitative measurement postlabs must show the relevant uncertainty path: Type 
 
 Verification or qualitative/graph-based postlabs (e.g. oscilloscope Lissajous patterns, polarization/Malus-law plots) may not have one final Type-A/Type-B result. For those, include the measured table values, fit/deviation where applicable, instrument resolution or reading uncertainty, dominant error sources, and a clear comparison with theory.
 
+**Formula sources.** Formulas may come from three places, handled differently:
+
+1. **Fixed textbook formulas** — Use the internal experiment knowledge base. No upload needed.
+2. **Teacher-specific formula template** — User uploads it for this experiment (e.g. a special data-processing DOCX).
+3. **Previously uploaded template** — Reused automatically if saved for the same experiment. Do not ask the student to upload the same file again.
+
 ### 6. Appendix with Scanned Originals
 
 ```latex
@@ -113,6 +168,19 @@ Verification or qualitative/graph-based postlabs (e.g. oscilloscope Lissajous pa
 
 Multi-page: repeat `figure[H]` per page. Some reports annotate with `Scanned data sheet: filename.pdf`.
 
+## When Materials Are Missing
+
+The skill must never fabricate data, formulas, or questions. When materials are incomplete:
+
+| Missing material | Behavior |
+|---|---|
+| Cover template PDF | Generate LaTeX source draft only; ask user to upload the official template |
+| Raw experimental data | Do **not** generate a final report. Generate only a structure skeleton or a blank data-entry table for the student to fill in |
+| Formula / data-processing template | Use textbook formulas from the internal knowledge base if available; warn that teacher-specific requirements may differ |
+| Postlab / prelab questions | Do **not** invent questions. Leave numbered placeholders or ask the user to provide them |
+| Scanned data is unclear | Extract a draft table with caveats; require user confirmation before any calculation |
+| Teacher signature required | Do **not** auto-place signatures. See Teacher Signatures and Data Sheets below |
+
 ## Audit Workflow
 
 Use this when checking whether a report or this skill matches the real course materials:
@@ -124,6 +192,8 @@ Use this when checking whether a report or this skill matches the real course ma
 5. Read senior/reference reports only as style and completeness examples. Older point values or section names are not authoritative if the current template differs.
 6. Cross-check every reported number against scanned data sheets, generated figures, or textbook/lab-manual values.
 7. Compile the TeX in a clean temporary directory with all referenced assets. Report missing dependencies, LaTeX errors, or template rules that cannot reproduce the PDF.
+
+**The experiment title is the primary key**, not the lab number. Lab order may change every year (as seen in the mapping below). When generating a report, always identify the experiment by its full title first; the lab number is only used for the cover page, output filename, and submission order. If lab number and experiment title appear inconsistent, warn the user and treat the title as more reliable.
 
 Known local label mapping from the completed reports:
 
@@ -287,7 +357,26 @@ Lab5 established the best pattern: bold question summary as first sentence, then
 
 Multi-page data sheets: one `figure[H]` per page. Some reports include a small signature/joke image at the bottom right: `\vfill\hfill\includegraphics[width=2.8cm]{signature.jpg}` (optional, personal preference).
 
-## Data Extraction Scripts
+### Teacher Signatures and Data Sheets
+
+The recommended workflow for official data sheets:
+
+1. The student fills in the official data sheet manually (raw data + required signatures).
+2. The student obtains teacher/TA signatures on the physical data sheet if required.
+3. The student scans or photographs the completed and signed data sheet.
+4. The skill attaches this scanned data sheet directly in the appendix.
+
+**Do not** attempt to automatically place the teacher's signature onto the data sheet. AI cannot reliably position signatures or preserve the official layout. Only attempt auto-placement if the user explicitly requests it, and warn them about the risk of misalignment.
+
+## Data Input
+
+### Recommended: Manual Input
+
+For reliability, the student should **manually type in** raw experimental data. AI vision and OCR can easily misread handwritten numbers — especially decimals, units, table rows, angles, and small values. The skill can generate a blank data-entry table based on the experiment type for the student to fill in.
+
+### Fallback: OCR / Scanned Data Extraction
+
+Only use when the student cannot type the data manually. All extracted values **must be confirmed by the user** before any calculation.
 
 Try direct text extraction first:
 
@@ -304,7 +393,7 @@ for i, page in enumerate(reader.pages):
     text = page.extract_text()
 ```
 
-For scanned PDFs or textbook pages where extracted text is empty, render and inspect/OCR:
+For scanned PDFs where extracted text is empty, render and OCR:
 
 ```bash
 pdftoppm -png -r 180 -f 1 -l 3 data.pdf page
@@ -353,3 +442,11 @@ Adapt the naming pattern to your school's requirements.
 | Prelab header `edu,cn` typo | Always check: it's `edu.cn` with a period |
 | Cover date vs. overlay date mismatch | Cover uses `/`, overlay uses `.` — both fine, small differences OK |
 | Forgetting `\tablefont` wrapper | Table text renders in wrong font without it |
+
+## Experiment Knowledge Base
+
+The `references/experiments/` directory is an extension point for per-experiment structured knowledge. Each `.md` file can include: experiment title (English + Chinese aliases), objectives, theory summary, required formulas, data table format, uncertainty calculation steps, prelab and postlab questions, common error analysis, and teacher/PPT notes.
+
+Experiments are organized by **title** (not lab number) because lab order may change yearly. When the course version or teacher requirements change, update the corresponding experiment file.
+
+For copyright reasons, do not commit full textbook PDFs to the public repository. Keep original textbook/PPT files in a local `private_assets/` folder (gitignored). The public repository contains only structured summaries and templates.

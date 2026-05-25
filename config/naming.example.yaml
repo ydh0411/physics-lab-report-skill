@@ -1,0 +1,8 @@
+# PDF output naming rules — copy to naming.yaml and adjust for your course
+# naming.yaml is gitignored; only this example is committed
+
+output_naming:
+  # Variables: {college}, {student_id}, {name}, {lab_number}, {experiment_title}
+  # These are EXAMPLES only — follow your school's actual submission requirement
+  prelab: "大物实验I-{college}-{student_id}-{name}-lab{lab_number}-pre.pdf"
+  postlab: "大物实验I-{college}-{student_id}-{name}-lab{lab_number}-post.pdf"

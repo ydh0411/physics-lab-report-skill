@@ -8,6 +8,33 @@ GitHub 仓库地址：
 
 `https://github.com/ydh0411/physics-lab-report-skill`
 
+## 学生使用流程
+
+### 首次设置（每学期一次）
+
+1. 放入学校下发的封面模板 PDF（`01-Template for Prelab work-2026*.pdf` / `02-Template for lab report-2026*.pdf`）
+2. 复制 `config/student_profile.example.yaml` 为 `student_profile.yaml`，填写姓名、学号、邮箱、学院、专业、班级、教师、助教
+3. 复制 `config/naming.example.yaml` 为 `naming.yaml`，按课程要求设置 PDF 命名格式
+4. 确认课程/教材版本
+
+配置文件填写一次后自动复用，无需每次重复提供。
+
+### 每次报告
+
+1. 告诉 skill 是**预习报告**（prelab）还是**正式报告**（postlab）
+2. 输入**完整实验标题**（如 "Polarization of Light / 偏振光"）
+3. 输入 lab 编号（仅用于封面和文件名，实验内容以标题为准）
+4. **手动输入**实验原始数据（推荐方式，减少 OCR 识别误差）
+5. （可选）上传教师特殊公式模板或数据处理要求
+6. （可选）上传已完成的扫描数据表（含教师签名，如有）
+7. 生成最终 PDF
+
+Skill 会自动使用已保存的模板、个人信息、命名规则和实验参考文件。
+
+### 更新配置
+
+模板更换、个人信息变动、命名规则调整、课程版本更新时，修改对应 config 文件或重新上传模板即可。
+
 ## 功能概览
 
 - 预习报告模板：`\includepdf` 插入封面 → 绝对坐标叠加层（学号/邮箱/日期/计分框）→ 预习题答案枚举
@@ -100,6 +127,13 @@ physics-lab-report-skill/
 ├── README.md                   # 本文件
 ├── LICENSE                     # MIT
 ├── .gitignore
+├── config/
+│   ├── student_profile.example.yaml  # 学生信息模板
+│   └── naming.example.yaml           # PDF命名规则模板
+├── scripts/
+│   └── build_report.sh               # PDF编译脚本
+├── references/
+│   └── experiments/                  # 实验知识库（按标题索引）
 └── templates/
     ├── prelab_template.tex     # 预习报告模板
     └── postlab_template.tex    # 正式报告模板

@@ -1,0 +1,15 @@
+# Student profile — copy to student_profile.yaml and fill in your info
+# student_profile.yaml is gitignored; only this example is committed
+
+# Stable fields (rarely change within a semester)
+name: "Your Name"
+student_id: "2024XXXXXXXX"
+email: "student@example.com"
+college: "Glasgow College"
+major: "Your Major"
+class: "2024XXXXXX"
+instructor: "Instructor Name"
+teaching_assistant: "TA Name"
+
+# Course version (update if textbook/requirements change)
+course_version: "2026"

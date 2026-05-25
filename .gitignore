@@ -17,6 +17,17 @@
 # macOS
 .DS_Store
 
+# User config (example files only committed)
+config/*.yaml
+!config/*.example.yaml
+
+# Private assets (textbook, teacher PPT, etc.)
+private_assets/
+
+# Build script artifacts
+scripts/*.pyc
+scripts/__pycache__/
+
 # Editor
 *.swp
 *.swo
