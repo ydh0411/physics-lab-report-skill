@@ -345,3 +345,26 @@ physics-lab-report-skill/
 <p align="center">
   <sub>MIT License · <a href="https://github.com/ydh0411/physics-lab-report-skill">GitHub</a> · Made for UESTC Glasgow College</sub>
 </p>
+
+---
+
+## 贡献者
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/ydh0411">
+        <b>ydh0411</b>
+      </a>
+      <br>
+      <sub>项目创建 & 维护</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/1JasonZ516">
+        <b>1JasonZ516</b>
+      </a>
+      <br>
+      <sub>工作流设计建议 · <a href="https://github.com/ydh0411/physics-lab-report-skill/issues/1">Issue #1</a></sub>
+    </td>
+  </tr>
+</table>
