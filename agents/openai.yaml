@@ -1,0 +1,7 @@
+interface:
+  display_name: "大物实验报告"
+  short_description: "生成 UESTC 格院大物实验 LaTeX/PDF 报告"
+  default_prompt: "使用 $physics-lab-report，根据我的实验标题、原始数据和课程材料生成 UESTC 格院大物实验报告。"
+
+policy:
+  allow_implicit_invocation: true

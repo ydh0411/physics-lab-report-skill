@@ -1,0 +1,54 @@
+# Template field mapping - copy to template_fields.yaml and adjust after setup
+# template_fields.yaml is gitignored; only this example is committed.
+#
+# This file records fields detected from official cover templates. It is not a
+# replacement for the cover PDFs: the LaTeX templates still insert the official
+# cover pages with \includepdf.
+
+stable_fields:
+  name:
+    label_variants: ["Name", "Chinese Name", "Your Chinese Name"]
+    source: "student_profile.name"
+  student_id:
+    label_variants: ["UESTC ID", "Student Number", "UESTCStudentNumber"]
+    source: "student_profile.student_id"
+  email:
+    label_variants: ["Email"]
+    source: "student_profile.email"
+  college:
+    label_variants: ["College", "School"]
+    source: "student_profile.college"
+  major:
+    label_variants: ["Major"]
+    source: "student_profile.major"
+  class:
+    label_variants: ["Class"]
+    source: "student_profile.class"
+  instructor:
+    label_variants: ["Instructor"]
+    source: "student_profile.instructor"
+  teaching_assistant:
+    label_variants: ["Teaching Assistant", "TA"]
+    source: "student_profile.teaching_assistant"
+
+experiment_fields:
+  report_type:
+    examples: ["prelab", "postlab", "short report", "long report"]
+  lab_number:
+    examples: ["lab5", "Experiment VII", "Physical Experiment XI"]
+    note: "Use for cover and filename only; do not use as the experiment primary key."
+  experiment_title:
+    examples: ["Polarized Light", "The Photoelectric Effect"]
+    note: "Primary key for selecting experiment references."
+  experiment_date:
+    examples: ["2026/5/12", "2026.5.12"]
+  submission_date:
+    examples: ["2026/5/13", "2026.5.13"]
+
+cover_assets:
+  prelab_pdf: "01-Template for Prelab work-2026.pdf"
+  postlab_pdf: "02-Template for lab report-2026.pdf"
+
+notes:
+  - "Confirm detected fields with the student before saving stable values."
+  - "Do not redraw official cover pages in LaTeX; use the existing templates and cover PDFs."
