@@ -34,7 +34,8 @@
   % \IfFontExistsTF{Calibri}{\newfontfamily\tablefont{Calibri}}{\newfontfamily\tablefont{Arial}}
   % \IfFontExistsTF{Calibri Light}{\newfontfamily\watermarkfont{Calibri Light}}{\newfontfamily\watermarkfont{Arial}}
   % \newfontfamily\titlefont{Times New Roman}
-  \usepackage{newtxmath}
+  \IfFileExists{newtxmath.sty}{\usepackage{newtxmath}}{%
+    \PackageWarningNoLine{postlab}{newtxmath.sty not found; using the default math font}}
 \fi
 \usepackage{amsmath}
 \usepackage{array,booktabs,tabularx,longtable,float,graphicx,caption}
