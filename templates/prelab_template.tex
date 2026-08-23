@@ -17,13 +17,12 @@
   \newcommand{\calibrilight}{\sffamily}
 \else
   \usepackage{fontspec}
-  \setmainfont{Times New Roman}
-  \setsansfont{Times New Roman}
-  \setmonofont{Courier New}
+  \IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{\setmainfont{TeX Gyre Termes}}
+  \IfFontExistsTF{Arial}{\setsansfont{Arial}}{\setsansfont{TeX Gyre Heros}}
+  \IfFontExistsTF{Courier New}{\setmonofont{Courier New}}{\setmonofont{Latin Modern Mono}}
   \usepackage{newtxmath}
-  % Use Arial as Calibri fallback on macOS/Linux
-  \newfontfamily\calibrifont{Arial}
-  \newfontfamily\calibrilight{Arial}
+  \IfFontExistsTF{Arial}{\newfontfamily\calibrifont{Arial}}{\newfontfamily\calibrifont{TeX Gyre Heros}}
+  \IfFontExistsTF{Arial}{\newfontfamily\calibrilight{Arial}}{\newfontfamily\calibrilight{TeX Gyre Heros}}
 \fi
 \usepackage{amsmath}
 \usepackage{array,booktabs,tabularx,longtable,float,graphicx,caption}

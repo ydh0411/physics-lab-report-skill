@@ -17,6 +17,9 @@ database, or automatic textbook ingestion system. Load only the reference files
 needed for the current experiment and keep private course materials outside the
 public repository.
 
+Do not apply this skill to unrelated coding, general writing, or physics reports
+from other institutions unless the user explicitly asks to adapt this workflow.
+
 ## Golden Template Rule
 
 The files below are hard-won golden templates:
@@ -47,17 +50,37 @@ report file. Leave the committed templates unchanged.
 
 ## Reference Routing
 
-Read these files only when they apply:
+Start with the files and paths supplied by the user. Do not inventory the whole
+workspace when the relevant report and course materials are already known. Read
+only the references that change the current decision:
 
 | Need | Read |
 |---|---|
-| First-time setup, update mode, audit mode | `references/course-workflow.md` |
-| Finding local templates, scans, reports, PPTs, and senior examples | `references/material-discovery.md` |
-| Significant figures, uncertainty, regression, units | `references/numerical-rules.md` |
-| Figures, scanned appendix, XeLaTeX/PDF workflow | `references/figures-and-compilation.md` |
-| Experiment title lookup | `references/experiment-index.md` |
+| First-time setup, update mode, or course-authority audit | `references/course-workflow.md` |
+| Locating materials when paths are unknown | `references/material-discovery.md` |
+| Calculating or auditing significant figures, uncertainty, regression, or units | `references/numerical-rules.md` |
+| Adding figures/scans or compiling and visually checking a PDF | `references/figures-and-compilation.md` |
+| Resolving an ambiguous title or lab label | `references/experiment-index.md` |
 | Physics Experiments II lookup | `references/experiments/physics-experiments-ii-index.md` |
-| Specific experiment formulas/tables | Matching `references/experiments/*.md` |
+| Using or auditing experiment-specific formulas/tables | Matching `references/experiments/*.md` |
+
+Do not read `material-discovery.md` merely to confirm paths the user already
+provided. Do not read `figures-and-compilation.md` for a text-only audit that
+does not make a PDF or visual-quality claim.
+
+## Proportionate Execution
+
+Use the smallest workflow that establishes the requested result:
+
+1. Inspect only the supplied report and the references routed above.
+2. Do not inspect test or checker implementation unless the user asks to debug
+   it or a failed check cannot otherwise be understood.
+3. Run the requested focused check once after the edit. If it passes, do not
+   repeat it through extra grep, hash, status, or wrapper commands unless those
+   checks establish a different required property.
+4. Compile only when producing a PDF or when compilation is part of the audit.
+5. A skeleton requested because materials are missing needs placeholder and
+   non-fabrication checks; it does not need a full numerical or visual audit.
 
 ## Work Modes
 
@@ -115,11 +138,13 @@ maintenance.
 Use this to check a finished report or this skill:
 
 1. Identify report type, submission label, and actual title.
-2. Read the current official template first.
-3. Read the matching experiment reference and current teacher materials.
+2. Read the current official template when template compliance is in scope.
+3. Read the matching experiment reference and current teacher materials needed
+   to decide the reported issue.
 4. Check raw-data traceability, formulas, units, significant figures, final
    result, questions, cover, watermark, and appendix scans.
-5. Compile in a clean temporary folder when possible.
+5. Compile in a clean temporary folder only when compilation or PDF quality is
+   part of the requested audit.
 6. Report current-template mismatches before style suggestions.
 
 ## Report Types At A Glance
@@ -235,9 +260,16 @@ Use XeLaTeX:
 bash scripts/build_report.sh file.tex "final_submission_name.pdf"
 ```
 
-The script compiles twice, cleans auxiliary files, and optionally renames the
-PDF. If XeLaTeX is unavailable, produce an Overleaf-ready project and say that
-local compilation was not run.
+The script compiles twice in a temporary build directory and writes the final
+PDF without leaving auxiliary files beside the report. It refuses to overwrite
+an existing PDF. After confirming the target, overwrite explicitly with:
+
+```bash
+bash scripts/build_report.sh --force file.tex "final_submission_name.pdf"
+```
+
+If XeLaTeX is unavailable, produce an Overleaf-ready project and say that local
+compilation was not run.
 
 ## When Materials Are Missing
 

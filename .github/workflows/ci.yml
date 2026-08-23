@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XeLaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-xetex texlive-latex-extra texlive-fonts-recommended
+      - name: Check shell syntax
+        run: |
+          bash -n scripts/build_report.sh
+          bash -n scripts/smoke_test.sh
+      - name: Compile templates and test overwrite protection
+        run: bash scripts/smoke_test.sh

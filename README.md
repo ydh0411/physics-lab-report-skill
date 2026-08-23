@@ -188,8 +188,19 @@ bash scripts/build_report.sh report.tex "大物实验I-通微-学号-姓名-lab5
 
 1. 检查 `xelatex` 是否存在。
 2. 编译两遍。
-3. 清理常见辅助文件。
-4. 按你给的名字重命名 PDF。
+3. 在临时目录清理辅助文件，不污染报告目录。
+4. 按你给的名字写出 PDF。
+5. 如果目标 PDF 已存在则停止，避免覆盖提交版。
+
+确认需要覆盖已有文件时，显式使用：
+
+```bash
+bash scripts/build_report.sh --force report.tex "大物实验I-通微-学号-姓名-lab5-post.pdf"
+```
+
+模板会优先使用 Times New Roman、Arial/Calibri 和 Courier New；系统没有
+这些字体时，会自动回退到 TeX Gyre 和 Latin Modern 字体，因此干净的
+Linux/Overleaf 环境也可以编译。
 
 没有本地 LaTeX 环境也没关系。把报告工程上传到 Overleaf，编译器选 XeLaTeX。
 
