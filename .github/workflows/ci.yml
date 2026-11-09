@@ -9,13 +9,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install XeLaTeX
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install python-docx (template structure check)
+        run: python3 -m pip install --quiet python-docx
+
+      - name: Shell syntax
+        run: |
+          for f in scripts/*.sh; do
+            echo "bash -n $f"
+            bash -n "$f"
+          done
+
+      - name: Python syntax
+        run: python3 -m py_compile scripts/*.py
+
+      - name: Assets, template structure and relative links
+        run: python3 scripts/check_assets.py
+
+      - name: Writing lint self-test
+        run: |
+          set +e
+          python3 scripts/lint_writing.py tests/fixtures/bad-prose.md
+          bad=$?
+          python3 scripts/lint_writing.py tests/fixtures/good-prose.md
+          good=$?
+          echo "bad-prose exit=$bad (expect 1), good-prose exit=$good (expect 0)"
+          [ "$bad" -eq 1 ] && [ "$good" -eq 0 ]
+
+      - name: Install XeLaTeX (legacy template smoke test)
         run: |
           sudo apt-get update
           sudo apt-get install -y texlive-xetex texlive-latex-extra texlive-fonts-recommended
-      - name: Check shell syntax
-        run: |
-          bash -n scripts/build_report.sh
-          bash -n scripts/smoke_test.sh
-      - name: Compile templates and test overwrite protection
+
+      - name: Legacy LaTeX templates
         run: bash scripts/smoke_test.sh

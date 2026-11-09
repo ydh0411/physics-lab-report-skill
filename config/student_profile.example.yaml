@@ -1,15 +1,17 @@
-# Student profile - copy to student_profile.yaml and fill in your info
-# student_profile.yaml is gitignored; only this example is committed
+# 个人固定信息。复制本文件为同目录下的 student_profile.yaml 后填写。
+# 填写后的 config/student_profile.yaml 已被 .gitignore 排除，不要提交到公开仓库。
 
-# Stable fields (rarely change within a semester)
-name: "Your Name"
+name: "Your Name"                                  # 英文姓名，用于文件名与封面
+name_chinese: "你的中文姓名"                        # 封面 Name (in Chinese)，宋体
 student_id: "2024XXXXXXXX"
-email: "student@example.com"
+email: "2024XXXXXXXX@std.uestc.edu.cn"             # 页眉 Email 字段
 college: "Glasgow College"
 major: "Your Major"
 class: "2024XXXXXX"
 instructor: "Instructor Name"
 teaching_assistant: "TA Name"
 
-# Course version (update if textbook/requirements change)
+# 课程版本与运行环境
 course_version: "2026"
+report_language: "English"
+timezone: "Asia/Shanghai"                          # 日期字段按此时区取当天

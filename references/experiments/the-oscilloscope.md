@@ -1,12 +1,19 @@
 # The Oscilloscope
 
+## 中文补注
+
+- 本学期编号：无（Physical Experiment I 历史实验，不在 2026 秋季安排表内）
+- 报告类型：历史参考，prelab 与 postlab 都有
+- 教师特别要求：以当次教师要求为准。
+
 ## Aliases
 
 - The Oscilloscope
 - Oscilloscope
 - Lissajous Pattern
 - 示波器
-- Lab 2 current label, Experiment 3 historical label
+- Physical Experiment I archival labels: Lab 2 (submission label), Experiment 3
+  (older template label). Not a 2026 Physics II lab number.
 
 ## Use This Card When
 

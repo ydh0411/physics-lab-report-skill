@@ -1,12 +1,19 @@
 # Young's Modulus of Wire by Elongating
 
+## 中文补注
+
+- 本学期编号：无（Physical Experiment I 历史实验，不在 2026 秋季安排表内）
+- 报告类型：历史参考，prelab 与 postlab 都有
+- 教师特别要求：以当次教师要求为准。
+
 ## Aliases
 
 - Young's Modulus of Wire by Elongating
 - Measurement of the Young's Modulus
 - Youngs Modulus
 - 杨氏模量
-- Lab 4 current label, Experiment 4 historical label
+- Physical Experiment I archival labels: Lab 4 (submission label), Experiment 4
+  (older template label). Not a 2026 Physics II lab number.
 
 ## Use This Card When
 

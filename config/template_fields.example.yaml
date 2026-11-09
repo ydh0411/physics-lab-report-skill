@@ -1,54 +1,71 @@
-# Template field mapping - copy to template_fields.yaml and adjust after setup
-# template_fields.yaml is gitignored; only this example is committed.
-#
-# This file records fields detected from official cover templates. It is not a
-# replacement for the cover PDFs: the LaTeX templates still insert the official
-# cover pages with \includepdf.
+# 模板字段映射。复制本文件为同目录下的 template_fields.yaml 后按当次模板核对。
+# 记录的是 2026 三份 Word 模板的实际字段与结构；模板换版后用当次文件重新核对再改这里。
 
-stable_fields:
-  name:
-    label_variants: ["Name", "Chinese Name", "Your Chinese Name"]
-    source: "student_profile.name"
-  student_id:
-    label_variants: ["UESTC ID", "Student Number", "UESTCStudentNumber"]
-    source: "student_profile.student_id"
-  email:
-    label_variants: ["Email"]
-    source: "student_profile.email"
-  college:
-    label_variants: ["College", "School"]
-    source: "student_profile.college"
-  major:
-    label_variants: ["Major"]
-    source: "student_profile.major"
-  class:
-    label_variants: ["Class"]
-    source: "student_profile.class"
-  instructor:
-    label_variants: ["Instructor"]
-    source: "student_profile.instructor"
-  teaching_assistant:
-    label_variants: ["Teaching Assistant", "TA"]
-    source: "student_profile.teaching_assistant"
+cover_fields:                     # 封面表格，按行填写
+  - row: "Lab Title:"
+    source: experiment_title      # 实验英文全名
+  - row: "Name (in Chinese):"
+    source: student_profile.name_chinese
+    font: "宋体 / SimSun"          # 中文不能用缺汉字的 Times New Roman 强行显示
+  - row: "UESTC ID:"
+    source: student_profile.student_id
+  - row: "Instructor:"
+    source: student_profile.instructor
+  - row: "Teaching Assistant:"
+    source: student_profile.teaching_assistant
+  - row: "Date:"
+    source: task_date             # 本次实验/提交日期，按 Asia/Shanghai 当日或用户指定值
+  - row: "Score:"
+    source: null                  # 留给教师评分，不要填
 
-experiment_fields:
-  report_type:
-    examples: ["prelab", "postlab", "short report", "long report"]
-  lab_number:
-    examples: ["lab5", "Experiment VII", "Physical Experiment XI"]
-    note: "Use for cover and filename only; do not use as the experiment primary key."
-  experiment_title:
-    examples: ["Polarized Light", "The Photoelectric Effect"]
-    note: "Primary key for selecting experiment references."
-  experiment_date:
-    examples: ["2026/5/12", "2026.5.12"]
-  submission_date:
-    examples: ["2026/5/13", "2026.5.13"]
+header_fields:
+  prelab: "UESTC Student Number:   Email:   Date:"     # 正文节页眉，与封面信息保持一致
+  short_report: ""                                     # 模板页眉无文字字段，不要自行添加
+  long_report: "UESTC Student Number:   Email:   Date:；第二节页眉 Physics Experiment II"
 
-cover_assets:
-  prelab_pdf: "01-Template for Prelab work-2026.pdf"
-  postlab_pdf: "02-Template for lab report-2026.pdf"
+sections:                         # 正文节标题与分值，逐字沿用模板
+  prelab:
+    - "Answers to Questions (20 points)"
+  short_report:
+    - "Abstract (About 100 words, 10 points)"
+    - "Calculations and Results (Calculations, data tables and figures; 15 points)"
+    - "Conclusions (About 100 words, 5 points)"
+    - "Answers to Postlab Questions (10 points)"
+    - "Appendix (Scanned data sheets)"
+  long_report:
+    - "Abstract (About 100 words, 3 points)"
+    - "Introduction (3 points)"
+    - "Experimental Procedure (State main steps in order of performance, 3 points)"
+    - "Results (Data tables and figures, 2 points)"
+    - "Discussion (More than 150 words, 5 points)"
+    - "Conclusions (About 50 words, 2 points)"
+    - "References (1 points)"
+    - "Answers to Questions (6 points)"
+    - "Appendix (Calculations, 15 points)"
+    - "Appendix (Scanned data sheets)"
+
+score_boxes:                      # 每个评分区一个表格，不要删除或合并
+  prelab: 1
+  short_report: 4
+  long_report: 9
+
+fonts:
+  latin: "Times New Roman"        # 正文、表格、页眉页脚、公式中的拉丁字母与数字
+  chinese: "宋体 / SimSun"        # 封面中文姓名等
+  body_size_pt: 12
+  cover_info_size_pt: 15
+  cover_title_size_pt: 14
+  cover_label_size_pt: 12
+  table_size_pt: "10–11"
+  formula: "原生 OMML，不用图片；变量斜体、数值单位正体"
+
+page:
+  size: "A4"
+  margins: "上下 1 inch，左右 1.25 inch"
+  numbering: "页脚页码域，正文从 1 开始"
 
 notes:
-  - "Confirm detected fields with the student before saving stable values."
-  - "Do not redraw official cover pages in LaTeX; use the existing templates and cover PDFs."
+  - "新建报告时复制模板文件，不要手搓一个新文档。"
+  - "封面、页眉、水印、logo、评分框、分节是模板原生要素，不重画不改动。"
+  - "模板内可能残留少量非 TNR 的西文 run（长报告模板有 3 处宋体、1 处 Meiryo），改动前先确认是否要保留。"
+  - "封面没有邮箱栏，不要自行加栏；页眉的 Email 字段要检查是否已填。"

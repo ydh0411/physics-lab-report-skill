@@ -1,12 +1,19 @@
 # The Potentiometer
 
+## 中文补注
+
+- 本学期编号：Lab11
+- 报告类型：prelab + 短报告（Short lab report）
+- 教师特别要求：以当次教师要求为准。
+
 ## Aliases
 
 - The Potentiometer
 - Potentiometer
 - Null balance measuring method
 - Thermal emf with potentiometer
-- Lab 11 in 2019 data tables, exp13 in 2019 samples, lab15 in 2018 samples
+- Archival numbers, not the 2026 lab number: Lab 11 in 2019 data tables; exp13
+  in 2019 senior samples; lab15 in 2018 senior samples
 
 ## Required Data Tables
 

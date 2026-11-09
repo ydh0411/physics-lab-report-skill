@@ -1,12 +1,19 @@
 # Michelson Interferometer
 
+## 中文补注
+
+- 本学期编号：Lab6
+- 报告类型：prelab + 长报告（Long lab report）；本学期两个长报告之一
+- 教师特别要求：以当次教师要求为准。
+
 ## Aliases
 
 - Measuring Laser Wavelength and Index of Refraction of Air by Michelson Interferometer
 - Michelson Interferometer
 - Measuring Laser wavelength
 - Index of Refraction of Air
-- Lab 6 in 2019 data tables, exp08 in 2019 samples, lab08 in 2018 samples
+- Archival numbers, not the 2026 lab number: Lab 6 in 2019 data tables; exp08
+  in 2019 senior samples; lab08 in 2018 senior samples
 
 ## Required Data Tables
 

@@ -1,8 +1,28 @@
-# PDF output naming rules - copy to naming.yaml and adjust for your course
-# naming.yaml is gitignored; only this example is committed
+# 交付命名规则。复制本文件为同目录下的 naming.yaml 后按当次教师要求调整。
+# 填写后的 config/naming.yaml 已被 .gitignore 排除。
 
+# 2026 课程惯例：<学号> <英文姓名> <实验英文全名>_<报告类型>.<docx|pdf>
 output_naming:
-  # Variables: {college}, {student_id}, {name}, {lab_number}, {experiment_title}
-  # These are EXAMPLES only - follow your school's actual submission requirement
-  prelab: "大物实验I-{college}-{student_id}-{name}-lab{lab_number}-pre.pdf"
-  postlab: "大物实验I-{college}-{student_id}-{name}-lab{lab_number}-post.pdf"
+  pattern: "{student_id} {name} {experiment_title}_{report_type}"
+  report_type_token:
+    prelab: "prelab"
+    short_postlab: "postlab"
+    long_report: "lab_report"
+  extensions: ["docx", "pdf"]
+  examples:
+    - "2024XXXXXXXX Your Name The Franck-Hertz Experiment_prelab.docx"
+    - "2024XXXXXXXX Your Name The Franck-Hertz Experiment_lab_report.pdf"
+  notes:
+    - "同一实验的 DOCX 与 PDF 用同一基名，便于配对核对。"
+    - "已有文件若缺少 _prelab 后缀（例如 Michelson 预习 Word 无后缀、PDF 有），先确认配对，不为统一后缀擅自重命名。"
+    - "沿用已有规范路径，不额外生成 final/revised/new 等副本。"
+
+# 实验编号只用于封面与文件名，不用来判断实验内容。
+experiment_label:
+  style: "Lab{number}"        # 本学期写法：Lab6 … Lab11
+  source: "当次课程安排表"
+
+# 历史 LaTeX 流程的命名，仅当仍使用 scripts/build_report.sh 时参考。
+legacy_latex_naming:
+  pattern: "大物实验I-{college}-{student_id}-{name}-lab{lab_number}-{pre|post}.pdf"
+  note: "不要与 Word 流程的文件名混用。"

@@ -1,5 +1,11 @@
 # Polarized Light
 
+## 中文补注
+
+- 本学期编号：无（Physical Experiment I 历史实验，不在 2026 秋季安排表内）
+- 报告类型：历史参考，prelab 与 postlab 都有
+- 教师特别要求：以当次教师要求为准。
+
 ## Aliases
 
 - Polarized Light
@@ -7,7 +13,8 @@
 - Polarization
 - Malus' Law
 - 偏振光
-- Lab 5 current label, Experiment 7 historical label
+- Physical Experiment I archival labels: Lab 5 (submission label), Experiment 7
+  (older template label). Not a 2026 Physics II lab number.
 
 ## Use This Card When
 

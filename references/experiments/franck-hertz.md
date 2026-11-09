@@ -1,11 +1,18 @@
 # Franck-Hertz Experiment
 
+## 中文补注
+
+- 本学期编号：Lab8
+- 报告类型：prelab + 长报告（Long lab report）；本学期两个长报告之一
+- 教师特别要求：以当次教师要求为准。
+
 ## Aliases
 
 - The Franck-Hertz Experiment
 - Frank-Hertz Experiment
 - First excitation potential of argon atom
-- Lab 8 in 2019 data tables, exp09 in 2019 samples, lab10 in 2018 samples
+- Archival numbers, not the 2026 lab number: Lab 8 in 2019 data tables; exp09
+  in 2019 senior samples; lab10 in 2018 senior samples
 
 ## Required Data Tables
 

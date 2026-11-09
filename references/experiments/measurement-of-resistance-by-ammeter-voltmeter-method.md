@@ -1,12 +1,19 @@
 # Measurement of Resistance by Ammeter-Voltmeter Method
 
+## 中文补注
+
+- 本学期编号：无（Physical Experiment I 历史实验，不在 2026 秋季安排表内）
+- 报告类型：历史参考，prelab 与 postlab 都有
+- 教师特别要求：以当次教师要求为准。
+
 ## Aliases
 
 - Measurement of Resistance by Ammeter-Voltmeter Method
 - Ammeter-Voltmeter Method
 - Voltmeter-Ammeter Method
 - 电流表-电压表法测电阻
-- Lab 1, Experiment 1
+- Physical Experiment I archival labels: Lab 1 (submission label), Experiment 1
+  (older template label). Not a 2026 Physics II lab number.
 
 ## Use This Card When
 

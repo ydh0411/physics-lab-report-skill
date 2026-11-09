@@ -11,24 +11,37 @@
 *.bcf
 *.run.xml
 
-# PDF output (users generate their own)
+# Generated PDFs: users produce their own reports
 *.pdf
 
-# macOS
+# macOS / Office
 .DS_Store
+~$*
 
-# User config (example files only committed)
+# User config (only *.example.yaml is committed)
 config/*.yaml
 !config/*.example.yaml
 
-# Private assets (textbook, teacher PPT, etc.)
+# Private course materials: textbook, teacher calculation sheets, senior
+# reports, raw measurements, signatures, scans
 private_assets/
+scans/
+signatures/
 
-# Build script artifacts
-scripts/*.pyc
-scripts/__pycache__/
+# Report working folders and intermediate artifacts
+build/
+out/
+cache/
+*.aux.bak
+
+# Python
+__pycache__/
+*.pyc
+.venv/
 
 # Editor
 *.swp
 *.swo
 *~
+.idea/
+.vscode/

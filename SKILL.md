@@ -1,313 +1,114 @@
 ---
 name: physics-lab-report
-description: Use when generating, auditing, revising, or compiling UESTC Glasgow College Physics Experiments I/II lab reports, prelab预习报告, postlab实验报告, short/long lab reports, XeLaTeX templates, data tables, uncertainty calculations, scanned-data appendices, or 大物实验报告.
+description: Use when preparing, revising, formatting, or checking UESTC Glasgow College physics experiment reports (Physical Experiment I/II) — prelab 预习报告, short postlab 短报告, long lab report 长报告 — with the official Word/DOCX teacher templates, a reviewed calculation chain, data tables, uncertainty, Times New Roman + native OMML formula layout, scanned-data appendix, and font/PDF visual QA. Also use for 大物实验报告整理、实验数据处理、.tex 遗留报告编译，以及成稿的「去 AI 味」「去防御性语言」表达通读。
 ---
 
-# UESTC Physics Lab Report
+# UESTC 大物实验报告
 
-## Overview
+交付符合当次教师 Word 模板的英文报告：题目答完整、计算可复核、语言自然不防御、Word 可编辑、PDF 排版与字体经过实际检查。
 
-Generate and audit UESTC Glasgow College physics experiment reports with the
-existing XeLaTeX templates. Use this skill for prelabs, postlabs, short reports,
-long reports, report audits, data-table setup, uncertainty calculation, and
-PDF-first delivery.
+本 skill 是本人课程规范，不是通用物理论文写作流程。默认选择来自已完成报告和本学期课程要求；当次教师通知、模板与用户新要求优先于本文件。
 
-This is a static, auditable skill knowledge base. It is not a RAG service, vector
-database, or automatic textbook ingestion system. Load only the reference files
-needed for the current experiment and keep private course materials outside the
-public repository.
+适用：Physical Experiment I/II 的预习报告、短报告、长报告，以及既有报告的修订、纯格式调整、只读提交检查。不适用：其他学校课程、科研论文、与实验报告无关的写作。需要适配别的学校时按 `README.md` 的「适配别的学校」逐项替换。
 
-Do not apply this skill to unrelated coding, general writing, or physics reports
-from other institutions unless the user explicitly asks to adapt this workflow.
+## 动笔前的三份材料
 
-## Golden Template Rule
+1. **当次教师模板**：默认用 `assets/word-templates/` 内置的 2026 三份；用户提供更新版本时以用户版本为准。
+2. **当次教师公式与数据表格**：本地课程文件夹里按实验全名匹配的 `Calculations for Lab-*.docx`、`Data tables.docx`。这是公式结构和表格列关系的来源。
+3. **本次实测数据**：用户最新提供或确认的记录。扫描件只作草稿，逐值确认后才计算。
 
-The files below are hard-won golden templates:
+缺任何一份时，按「缺失材料处理」执行，不编造。
 
-- `templates/prelab_template.tex`
-- `templates/postlab_template.tex`
+## 按任务读取
 
-Do not rewrite, reformat, simplify, or "clean up" their settings unless the user
-explicitly asks for template maintenance. They encode the official cover
-insertion, absolute prelab overlays, score boxes, watermark wording, fonts,
-spacing, and appendix behavior.
+只读当前决策需要的文件。
 
-When producing a report, copy or adapt from these templates into a working
-report file. Leave the committed templates unchanged.
-
-## Core Principles
-
-1. Use the full experiment title as the primary key. Lab numbers change by year.
-2. Use current official templates and teacher materials before old examples.
-3. Use real data only. Never invent raw data, questions, signatures, or formulas.
-4. Prefer manual raw-data input. OCR or visual extraction is only a draft until
-   the user confirms every value.
-5. Treat senior reports as style and completeness references only. The goal is
-   to produce a better, more current, more traceable report than the references.
-6. Return the final PDF as the main deliverable when local XeLaTeX is available.
-7. Keep generated plots, scans, and scripts inside the report folder with
-   relative paths.
-
-## Reference Routing
-
-Start with the files and paths supplied by the user. Do not inventory the whole
-workspace when the relevant report and course materials are already known. Read
-only the references that change the current decision:
-
-| Need | Read |
+| 需要 | 读 |
 |---|---|
-| First-time setup, update mode, or course-authority audit | `references/course-workflow.md` |
-| Locating materials when paths are unknown | `references/material-discovery.md` |
-| Calculating or auditing significant figures, uncertainty, regression, or units | `references/numerical-rules.md` |
-| Adding figures/scans or compiling and visually checking a PDF | `references/figures-and-compilation.md` |
-| Resolving an ambiguous title or lab label | `references/experiment-index.md` |
-| Physics Experiments II lookup | `references/experiments/physics-experiments-ii-index.md` |
-| Using or auditing experiment-specific formulas/tables | Matching `references/experiments/*.md` |
+| 第一次接手、定位课程资料、模板结构、编号与报告类型映射 | [课程与文件地图](references/course-profile.md) |
+| 七阶段流程、四种任务模式、各阶段验收与写作关卡 | [全流程](references/course-workflow.md) |
+| 写作与表达：去 AI 味、去防御性语言、字数、两轮通读、自查清单 | [写作规则](references/writing-policy.md) |
+| 计算链、表格、字体、原生公式、版式、PDF 检查 | [计算、排版与检查](references/calculation-layout-qa.md) |
+| 按实验全名选卡片、编号冲突 | [实验索引](references/experiment-index.md) |
+| 某实验的表格、公式清单与常见错误 | 匹配的 `references/experiments/*.md` |
+| 安装、换电脑、第一次配置 | [`INSTALL.md`](INSTALL.md) |
 
-Do not read `material-discovery.md` merely to confirm paths the user already
-provided. Do not read `figures-and-compilation.md` for a text-only audit that
-does not make a PDF or visual-quality claim.
+## 三类报告
 
-## Proportionate Execution
+| 类型 | 内容骨架 | 分值 | 引用 |
+|---|---|---|---|
+| Prelab | 封面；Answers to Questions，按题号逐题回答、必要推导与计算 | 20 | 不加 References，不放文内编号 |
+| Short postlab | Abstract（约 100 词）；Calculations and Results；Conclusions（约 100 词）；Answers to Postlab Questions；原始数据扫描附录 | 10 / 15 / 5 / 10 | 不加 References，不放文内编号 |
+| Long lab report | Abstract（约 100 词）；Introduction；Experimental Procedure；Results；Discussion（>150 词）；Conclusions（约 50 词）；References；Answers to Questions；Appendix（Calculations）；数据扫描附录 | 3 / 3 / 3 / 2 / 5 / 2 / 1 / 6 / 15 | 保留真实、核验过的 References |
 
-Use the smallest workflow that establishes the requested result:
+章节标题、字数与分值以当次模板实际内容为准；上表是 2026 三份模板的核验快照。不要用「简洁」删掉必答题、必要计算或长报告必需章节，也不要给 prelab 拼接通用论文式背景、讨论和结论。
 
-1. Inspect only the supplied report and the references routed above.
-2. Do not inspect test or checker implementation unless the user asks to debug
-   it or a failed check cannot otherwise be understood.
-3. Run the requested focused check once after the edit. If it passes, do not
-   repeat it through extra grep, hash, status, or wrapper commands unless those
-   checks establish a different required property.
-4. Compile only when producing a PDF or when compilation is part of the audit.
-5. A skeleton requested because materials are missing needs placeholder and
-   non-fabrication checks; it does not need a full numerical or visual audit.
+## 七阶段流程
 
-## Work Modes
+每阶段有硬门槛，未过不进下一阶段。细节与四种任务模式的差异见 [全流程](references/course-workflow.md)。
 
-### First-Time Setup
+1. **确认任务**：新建 / 重算 / 修订 / 纯格式 / 只读检查。范围不同，产物不同。
+2. **定位实验**：用实验英文全名匹配卡片与教师材料；编号只用于封面和文件名。
+3. **确认数据**：整理成表格给用户确认；OCR 结果未确认前不算数。
+4. **计算**：按教师文件的公式结构、符号、计算顺序做四步链（公式 → 带单位代入 → 结果 → 不确定度/误差/拟合）。
+5. **写各节**：按模板骨架填写，不增不减章节。
+6. **写作关卡**：内容通读 → 表达通读（去 AI 味、去防御性）→ `python3 scripts/lint_writing.py <docx>` 清零。三件事都做完才算过。
+7. **排版与导出**：`python3 scripts/check_docx.py` → `bash scripts/docx_to_pdf.sh` → `bash scripts/check_pdf_fonts.sh` → 逐页看 PDF。
 
-Use once per semester or course version:
+## 写作门槛（摘要）
 
-1. Save official prelab and postlab cover PDFs.
-2. Copy `config/student_profile.example.yaml` to `config/student_profile.yaml`.
-3. Copy `config/naming.example.yaml` to `config/naming.yaml`.
-4. Copy `config/template_fields.example.yaml` to `config/template_fields.yaml`.
-5. Confirm stable fields: name, student ID, email, college, major, class,
-   instructor, and teaching assistant.
-6. Confirm PDF naming rules and course version.
+规则全文、可判定清单与英文 before→after 例句见 [写作规则](references/writing-policy.md)。这里只列不可让步的部分。
 
-Private filled config files and private assets are gitignored.
+- **直接讲物理**：测量对象、处理方法、结果、单位、解释。不写「本报告将…」式开场，不写模板/表格/教材章节来源声明。
+- **去 AI 味**：删浮夸形容词、空泛意义、机械三段式、同义词轮换、无信息承诺、为对称而排比、每段强行过渡。
+- **去防御性**：删假想反驳、重复限定堆叠（`might potentially suggest`）、自我辩护与免责（`To ensure rigor`、`avoid misunderstanding`）、有效数字与不确定度规则的教学式解释。
+- **保留真实边界**：影响结论的假设（如忽略浮力）在相关位置说明一次；确有不确定时用一层 `may` / `suggests`；异常数据和不理想结果照实写。
+- **完整而非最短**：不重复，但必要推导、计算链和解释不能压成一句「the results were calculated」。
+- **连续性自行判定**：lint 只查词句模式，不判物理正确性和是否答到题；内容通读与表达通读不可省。
 
-### Regular Generation
+## 计算与排版硬规则（摘要）
 
-For each report, collect:
+- 每项计算四步：公式 → 带单位数值代入 → 结果数值与单位 → 不确定度/相对误差/拟合的公式、输入与结果。中间保留保护位，最终按课程规则取位并末位对齐。
+- 表格保留教师文件的列、表头单位与合并关系；按当次要求删多余空白组（如 Lab9 只测 5 组）；正文与附录补全能由已有记录算出的平均值等派生栏。
+- 英文正文、表格、页眉页脚、公式中的拉丁字母与数字：Times New Roman；中文封面信息：宋体/SimSun；变量斜体、数值单位函数正体；公式用原生可编辑 OMML，不做成图片。
+- 保留模板原生边框、logo、水印、评分框、分节、页眉页脚、页码域；不要重画封面；正文连续分页，避免每项计算单独一页。
+- Docx 里写了字体名不等于 PDF 用了该字体：Word 可能把数学字母换成 Cambria Math，LibreOffice 缺字体时回退 Liberation。必须查 PDF 实际字体并逐页看版式。
 
-1. Report type: prelab, postlab, short report, or long report.
-2. Full experiment title.
-3. Lab number/submission label for cover and filename only.
-4. Date fields.
-5. Manually entered raw data, or a scan transcription confirmed by the user.
-6. Teacher formula/data-processing sheet when it differs from the reference.
-7. Completed scanned data sheet for appendix when required.
+详细做法见 [计算、排版与检查](references/calculation-layout-qa.md)。
 
-Then:
+## 缺失材料处理
 
-1. Select the experiment reference by title/alias.
-2. Prepare or confirm the data table before calculations.
-3. Generate the report `.tex` from the golden template.
-4. Compile with XeLaTeX.
-5. Rename the PDF using `config/naming.yaml` when available.
-
-### Update Mode
-
-Use when stable material changes:
-
-- cover template PDFs
-- student profile
-- instructor or TA
-- output naming rule
-- course/textbook version
-- teacher formula template
-- experiment reference card
-
-Do not edit golden templates unless the update is specifically about template
-maintenance.
-
-### Audit Mode
-
-Use this to check a finished report or this skill:
-
-1. Identify report type, submission label, and actual title.
-2. Read the current official template when template compliance is in scope.
-3. Read the matching experiment reference and current teacher materials needed
-   to decide the reported issue.
-4. Check raw-data traceability, formulas, units, significant figures, final
-   result, questions, cover, watermark, and appendix scans.
-5. Compile in a clean temporary folder only when compilation or PDF quality is
-   part of the requested audit.
-6. Report current-template mismatches before style suggestions.
-
-## Report Types At A Glance
-
-| | Prelab | Postlab |
-|---|---|---|
-| Cover PDF | `01-Template for Prelab work-2026*.pdf` | `02-Template for lab report-2026*.pdf` |
-| Cover insertion | `\includepdf` | `\includepdf` |
-| Page style | `empty` | `fancy`, centered page numbers |
-| Watermark | `Physics Lab 2026` | `Physics Labs 2026` |
-| Main sections | `Answers to Questions (20 points)` | Abstract, Calculations/Results/Comments, Conclusions, Questions |
-| Data appendix | Usually not needed | attach completed scanned data sheet when required |
-| Identity | overlay on answer pages | usually contained in filled cover PDF |
-
-Physics Experiments II may use prelab, short lab report, or long lab report
-formats. Always inspect the current cover/template before assuming section
-names or point values.
-
-## Title-Based Experiment Mapping
-
-Known Physics Experiments I current mapping:
-
-| Submission label | Actual experiment |
+| 缺什么 | 怎么做 |
 |---|---|
-| lab1 | Measurement of Resistance by Ammeter-Voltmeter Method |
-| lab2 | The Oscilloscope |
-| lab3 | Newton's Rings |
-| lab4 | Young's Modulus of Wire by Elongating |
-| lab5 | Polarized Light |
+| 当次模板 | 用内置 2026 模板起草，并明确说明用的是哪份；请用户提供当次版本 |
+| 原始数据 | 只出空表或骨架，不填示例值、不写结论 |
+| 公式表格 | 用实验卡片并提示「教师公式可能不同」；不要自创处理流程 |
+| 题目 | 留占位或问用户，不编题 |
+| 扫描不清 | 给草稿转写并逐值请用户确认 |
+| 教师签名 | 仅在用户明确授权时沿用已有签名图；prelab 不自动加签名 |
 
-Physics Experiments II historical labels conflict across years. Use
-`references/experiments/physics-experiments-ii-index.md` and ask the user to
-confirm the full title when labels disagree.
+## 任务边界
 
-## Data Handling
+- 「能不能提交」默认只检查不改稿；改稿需明确要求。
+- 「只改字体/格式」不动正文、数据、公式表达式、图片、日期、签名。先记录再改，改后比对。
+- 不因偏离理论值调整原始记录；有依据的录入或计算错误可改，并把改动和依据告诉用户。
+- 学长报告只用于核对题目覆盖、结构、计算展开和版面密度；不复制数据、不沿用错误公式、不按旧编号套用。
+- 旧制作脚本和旧预览稿可能含过期数据，不作为数据真源；不重建覆盖用户当前报告。
+- 不删除或改写用户现有报告、原始记录、模板和参考资料。
 
-Manual input is the default. If the user uploads scans:
+## 完成标准
 
-1. Try direct text extraction when the PDF is text-based.
-2. Render scanned pages for visual inspection when extraction is empty.
-3. Transcribe conservatively.
-4. Show the table to the user for confirmation.
-5. Do not calculate until the user confirms unclear values.
+- 逐题核对：每问都有回答，且对应本次教材/教师问题。
+- 数值核对：原始记录 → 差值/平均值 → 公式代入 → 结果表 → 摘要与结论，各处一致。
+- 表达核对：两轮通读完成；`scripts/lint_writing.py` 无命中或命中已逐条处理并说明。
+- 版式核对：`check_docx.py` 无异常；PDF 逐页看过；`check_pdf_fonts.sh` 字体合规。
+- 明确说明尚未完成的项目（未渲染、未核实数据、缺签名等），不用「应该没问题」代替检查。
+- 交付可编辑 DOCX 与对应 PDF，命名见 [课程与文件地图](references/course-profile.md) 与 `config/naming.example.yaml`。
 
-If raw data is missing, generate only a skeleton report or blank data-entry
-table. Do not generate a final report.
+## 本地配置
 
-## Formula Sources
+个人信息、命名规则、模板字段映射复制 `config/*.example.yaml` 为同目录下的 `.yaml` 后填写；填写后的文件被 `.gitignore` 排除，不进公开仓库。
 
-Use formulas in this order:
+## 遗留 LaTeX 路径
 
-1. Current teacher formula/data-processing sheet.
-2. Matching experiment reference card.
-3. Current lab manual/textbook.
-4. Senior reports as examples only.
-
-If a teacher-specific formula sheet is missing, use the reference card only when
-it covers the experiment and warn that current teacher details may differ.
-
-## LaTeX Patterns To Preserve
-
-Cover insertion:
-
-```latex
-\usepackage{pdfpages}
-\includepdf[pages=1,pagecommand={\thispagestyle{empty}}]{\CoverPDF}
-\setcounter{page}{1}
-```
-
-Postlab section headings:
-
-```latex
-\labsection{Calculations, Results, and Comments}{(Calculations, data tables and figures; 15 points)}
-```
-
-Data table pattern:
-
-```latex
-\datatable{DATA TABLE X-X}{(Purpose: ...)}
-\begin{table}[H]
-\centering
-\small
-\renewcommand{\arraystretch}{1.15}
-\setlength{\tabcolsep}{3pt}
-{\tablefont
-\begin{tabular}{|...|}
-\hline
-... real data only ...
-\hline
-\end{tabular}
-}
-\caption*{Unit: ... $\Delta_{\mathrm{instr.}}=...$, $\Delta_{\mathrm{read}}=...$}
-\end{table}
-```
-
-Scanned appendix:
-
-```latex
-\clearpage
-\appendixhead
-\begin{figure}[H]
-\centering
-\includegraphics[page=1,width=0.90\textwidth]{\DataPDF}
-\caption*{Scanned data sheet page 1}
-\end{figure}
-```
-
-## Compilation
-
-Use XeLaTeX:
-
-```bash
-bash scripts/build_report.sh file.tex "final_submission_name.pdf"
-```
-
-The script compiles twice in a temporary build directory and writes the final
-PDF without leaving auxiliary files beside the report. It refuses to overwrite
-an existing PDF. After confirming the target, overwrite explicitly with:
-
-```bash
-bash scripts/build_report.sh --force file.tex "final_submission_name.pdf"
-```
-
-If XeLaTeX is unavailable, produce an Overleaf-ready project and say that local
-compilation was not run.
-
-## When Materials Are Missing
-
-| Missing material | Behavior |
-|---|---|
-| Cover template PDF | Generate `.tex` draft only and ask for the official cover |
-| Raw data | Generate skeleton or data-entry table only |
-| Formula template | Use reference card if available and warn about teacher-specific gaps |
-| Questions | Leave placeholders or ask user; do not invent questions |
-| Unclear scan | Draft transcription with caveats and ask for confirmation |
-| Teacher signature | Attach completed signed scan; do not auto-place signatures |
-
-## Common Mistakes
-
-| Mistake | Fix |
-|---|---|
-| Using lab number as the experiment key | Match by full title and aliases |
-| Editing golden templates casually | Copy into a report file; leave templates untouched |
-| Copying senior-report formulas blindly | Check current teacher template first |
-| Relying on OCR for handwritten numbers | Ask the user to confirm every value |
-| Fabricating missing data/questions | Stop and request the missing material |
-| Compiling with pdfLaTeX | Use XeLaTeX |
-| Referencing Desktop paths in LaTeX | Use relative paths inside the report folder |
-| Forgetting scanned-data appendix | Attach completed data sheet when required |
-| Treating old point values as current | Current cover/template wins |
-
-## Finish Checklist
-
-Before saying a report is ready:
-
-- [ ] Full experiment title identified.
-- [ ] Current template/cover rules checked.
-- [ ] Matching experiment reference loaded.
-- [ ] Raw data confirmed by the user or manually provided.
-- [ ] Every reported number traces to a source.
-- [ ] Units and significant figures checked.
-- [ ] Uncertainty or regression handled according to current materials.
-- [ ] Golden templates were not modified.
-- [ ] Figures and scans use relative paths.
-- [ ] XeLaTeX compilation was run, or an Overleaf-ready fallback was clearly stated.
-- [ ] Final PDF name follows `config/naming.yaml` when available.
+`templates/prelab_template.tex`、`templates/postlab_template.tex` 与 `scripts/build_report.sh` 是历史 LaTeX 方案，当前课程不用。仅当课程或用户明确要求 LaTeX 时使用，说明见 [`templates/README.md`](templates/README.md)。不要用 LaTeX 模板改写或覆盖现有 Word 报告。

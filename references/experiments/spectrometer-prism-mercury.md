@@ -1,5 +1,11 @@
 # Spectrometer Prism And Mercury Lines
 
+## 中文补注
+
+- 本学期编号：Lab7
+- 报告类型：prelab + 短报告（Short lab report）
+- 教师特别要求：以当次教师要求为准。
+
 ## Aliases
 
 - Measurement of the Apex Angle of a Prism and the Wavelengths of Mercury Lights Using a Spectrometer
@@ -7,7 +13,8 @@
 - Spectrometer
 - Prism apex angle
 - Mercury spectrum
-- Lab 7 in 2019 data tables, exp12 in 2019 samples, lab09 in 2018 samples
+- Archival numbers, not the 2026 lab number: Lab 7 in 2019 data tables; exp12
+  in 2019 senior samples; lab09 in 2018 senior samples
 
 ## Required Data Tables
 

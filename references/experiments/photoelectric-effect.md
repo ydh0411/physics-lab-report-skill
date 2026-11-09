@@ -1,11 +1,18 @@
 # The Photoelectric Effect
 
+## 中文补注
+
+- 本学期编号：Lab10
+- 报告类型：prelab + 短报告（Short lab report）
+- 教师特别要求：以当次教师要求为准。
+
 ## Aliases
 
 - The Photoelectric Effect
 - Photoelectric Effect
 - Planck constant by stopping potential
-- Lab 10 in 2019 data tables, exp11 in 2019 samples
+- Archival numbers, not the 2026 lab number: Lab 10 in 2019 data tables; exp11
+  in 2019 senior samples; no separate 2018 senior label recorded
 
 ## Required Data Tables
 
