@@ -1,6 +1,6 @@
 ---
 name: physics-lab-report
-description: Use when preparing, revising, formatting, or checking UESTC Glasgow College physics experiment reports (Physical Experiment I/II) — prelab 预习报告, short postlab 短报告, long lab report 长报告 — with the official Word/DOCX teacher templates, a reviewed calculation chain, data tables, uncertainty, Times New Roman + native OMML formula layout, scanned-data appendix, and font/PDF visual QA. Also use for 大物实验报告整理、实验数据处理、.tex 遗留报告编译，以及成稿的「去 AI 味」「去防御性语言」表达通读。
+description: Use when preparing, revising, auditing, formatting, or compiling UESTC Glasgow College physics experiment reports (Physical Experiment I/II) — prelab 预习报告, short postlab 短报告, long lab report 长报告, 大物实验报告, 数据处理, Word/DOCX or legacy LaTeX templates, OMML equations, scanned-data appendices, font/PDF checks, or removing AI/defensive prose.
 ---
 
 # UESTC 大物实验报告
@@ -60,11 +60,11 @@ description: Use when preparing, revising, formatting, or checking UESTC Glasgow
 规则全文、可判定清单与英文 before→after 例句见 [写作规则](references/writing-policy.md)。这里只列不可让步的部分。
 
 - **直接讲物理**：测量对象、处理方法、结果、单位、解释。不写「本报告将…」式开场，不写模板/表格/教材章节来源声明。
-- **去 AI 味**：删浮夸形容词、空泛意义、机械三段式、同义词轮换、无信息承诺、为对称而排比、每段强行过渡。
-- **去防御性**：删假想反驳、重复限定堆叠（`might potentially suggest`）、自我辩护与免责（`To ensure rigor`、`avoid misunderstanding`）、有效数字与不确定度规则的教学式解释。
-- **保留真实边界**：影响结论的假设（如忽略浮力）在相关位置说明一次；确有不确定时用一层 `may` / `suggests`；异常数据和不理想结果照实写。
-- **完整而非最短**：不重复，但必要推导、计算链和解释不能压成一句「the results were calculated」。
-- **连续性自行判定**：lint 只查词句模式，不判物理正确性和是否答到题；内容通读与表达通读不可省。
+- **去 AI 味**：删浮夸形容词、空泛意义、机械三段式、同义词轮换、无信息承诺、为对称而排比、每段强行过渡、破折号（`—`）打断、句末空洞 `-ing` 拔高。
+- **去防御性**：删假想反驳、重复限定堆叠（`might potentially suggest`）、自我辩护与免责（`To ensure rigor`、`avoid misunderstanding`）、第三人称论文旁白、有效数字与不确定度规则的教学式解释。
+- **保留真实边界**：影响结论的假设（如忽略浮力）在相关位置说明一次；确有不确定时用一层 `may` / `suggests`；异常数据、量程限制和不理想结果照实写。
+- **克制润色与完整链路**：已清楚自然的句子原样保留，不为换词而改；必要推导、计算链、跨章节数字一致性和解释不可省略。
+- **连续性自行判定**：lint 只查词句模式，不判物理正确性、时态与跨节数值对账；内容通读与表达通读不可省。
 
 ## 计算与排版硬规则（摘要）
 

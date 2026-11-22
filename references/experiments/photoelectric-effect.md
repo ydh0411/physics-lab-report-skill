@@ -23,15 +23,13 @@
 
 ## Formula And Figure Checklist
 
-- Frequency: `nu = c / lambda`.
-- Linear model: stopping potential versus frequency.
-- Planck constant from slope: `h = e * slope` when the fit uses voltage versus
-  frequency.
-- Work function from intercept when required.
-- Plot stopping potential against frequency with scatter points and fit line.
+- Frequency: `nu = c / lambda` (convert wavelength from nm to m first).
+- Linear model using signed stopping potentials `V_s` versus frequency `nu`: `V_s = a + b * nu`, where Einstein's equation gives `V_s = W_0 / (-e) + (-h / e) * nu` (or `|V_s| = (h / e) * nu - W_0 / e` if unsigned magnitudes are used — match the sign convention of the teacher sheet).
+- Report sample means, centered sums (`S_xx`, `S_xy`, `S_yy`), slope `b`, intercept `a`, correlation coefficient `r` (or `R^2`), Planck constant `h = -e * b`, work function `W_0`, and relative error of `h`.
+- Plot signed stopping potential versus frequency (scatter points plus fitted line, displaying fit equation and `R^2`), and `I-V` curves at both source distances (`30 cm` and `40 cm`) with distinct markers.
 
 ## Common Pitfalls
 
-- Mixing wavelength in nm with meters when computing frequency.
-- Using ordinary voltage instead of stopping potential for the Planck fit.
-- Forgetting sign conventions for retarding voltage.
+- Mixing wavelength in nm with meters when computing frequency, or dropping `10^14 Hz` scaling when recovering `h` in `J*s`.
+- Mixing signed stopping potentials with unsigned magnitudes in the slope sign or work-function intercept.
+- Fabricating readings at negative voltage points beyond the instrument's actual range (if the supply does not reach `-2.0 V`, leave blank and note the instrument range limit).

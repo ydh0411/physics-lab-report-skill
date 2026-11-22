@@ -24,14 +24,15 @@
 
 ## Formula Checklist
 
-- Identify successive peak or valley voltages from the `I-V` curve.
-- Compute voltage differences between adjacent peaks.
-- Average the voltage differences to estimate first excitation potential `U0`.
-- Compare with accepted argon excitation potential and compute relative error
-  when required.
+- Record the accelerating voltage coordinates of the six crests from the chosen trace; when two adjacent `1 V` readings tie at a flat crest, take their midpoint.
+- Cumulative-difference method (teacher formula): compute `sum_{i=1}^{3} (V_{i+3} - V_i)` or the teacher-specified pairing, and divide by the exact denominator in `Calculations for Lab-8.docx` (e.g., `15` for six crests paired with cumulative differences) to obtain the first excitation potential `U0` and excitation energy `Delta E = e U0`.
+- Distinguish the physical roles of `V1` (filament heating / thermionic emission), `V2` (extraction), `V3` (retarding barrier), and `V4` (accelerating voltage).
+- Compare `U0` with the course accepted value for argon (`13.1 V`) and compute relative error.
+- For postlab photon-wavelength question, use `lambda = hc / Delta E` and note that vacuum-ultraviolet lines require an evacuated optical path and VUV spectrometer.
 
 ## Common Pitfalls
 
-- Choosing peaks by eye without showing the graph or table.
-- Mixing manual and computer-mode curves without labeling them.
-- Using all grid values as final results instead of extracting peak positions.
+- Choosing peaks by eye without showing the multi-trace `I-V` graph (plot manual and computer traces with distinct markers and label crests 1–6).
+- Mixing up `V1`, `V2`, `V3` effects with changes in the intrinsic excitation potential `U0` (the voltages shift peak amplitude/width, not the atomic energy gap).
+- Confusing excitation potential (V) with excitation energy (eV or J) in prelab definitions.
+- Misreading trailing units on raw computer exports (e.g., `s` instead of `nA`): verify unit and document the correction in delivery notes.

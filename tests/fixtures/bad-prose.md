@@ -14,4 +14,4 @@ The residual offset might potentially suggest that the plate was slightly tilted
 
 ## Conclusion
 
-All in all, the measured wavelength is 632.8 nm, which is very close to the reference value. It should be noted that the experiment was successful and the method is robust.
+All in all, the measured wavelength is 632.8 nm — very close to the reference value, highlighting the importance of precision. It should be noted that the experiment was successful and the method serves as a robust benchmark.

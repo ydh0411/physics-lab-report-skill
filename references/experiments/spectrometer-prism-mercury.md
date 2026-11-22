@@ -26,14 +26,14 @@
 
 ## Formula Checklist
 
-- Apex angle from paired telescope readings; follow the teacher calculation
-  template for angle conventions.
-- Type A and Type B uncertainty for angular readings.
-- Wavelength from grating/prism relation as specified by the course template.
-- Convert degrees/minutes carefully before averaging or propagating uncertainty.
+- Opposite-vernier averaging for each position (`theta = (theta_1 + theta_2) / 2`) to cancel dial eccentricity error, and apex angle `A = |theta_L - theta_R| / 2`.
+- Type A uncertainty from repeated trials and Type B uncertainty from instrument error limit (`1' / sqrt(3)` for rectangular distribution when specified), propagated independently across left and right telescope positions.
+- Calibrate grating spacing `d` from the `546.07 nm` mercury green line (`d sin(phi_G) = |k| lambda_G`), then compute yellow-doublet wavelengths (`lambda_Y1`, `lambda_Y2`) and compare against `577.0 nm` and `579.0 nm`.
+- Convert degrees/minutes carefully (`1 deg = 60'`) before averaging or propagating uncertainty.
 
 ## Common Pitfalls
 
-- Averaging raw degree-minute strings without converting units.
+- Averaging raw degree-minute strings without converting arcminutes (`60'` wrap-around near `360 deg`).
 - Swapping left/right or `k=-1`/`k=+1` readings.
-- Collapsing the yellow doublet into one line when the data table separates it.
+- Collapsing the yellow doublet (`577.0 nm` / `579.0 nm`) into one line when the data table separates it.
+- Omitting the appendix section heading (`Appendix` + `Scanned data sheets` / `Original completed data sheet`) in short reports.

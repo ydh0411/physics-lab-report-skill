@@ -4,7 +4,7 @@
 
 流程位置：草稿 → 第一次内容通读 → 第二次表达通读 → 删除与改写 → 导出 DOCX/PDF（关卡定义见 [references/course-workflow.md](course-workflow.md)）。数值取舍与版式见 [references/calculation-layout-qa.md](calculation-layout-qa.md)，模板结构与篇幅见 [references/course-profile.md](course-profile.md)。
 
-规则 id 固定，与 `scripts/lint_writing.py --list-rule` 一一对应：`AI-1`～`AI-8`（去 AI 味）、`DEF-1`～`DEF-6`（去防御性语言）、`OK-1`～`OK-3`（允许保留）。
+规则 id 固定，与 `scripts/lint_writing.py --list-rule` 一一对应：`AI-1`～`AI-10`（去 AI 味）、`DEF-1`～`DEF-6`（去防御性语言）、`OK-1`～`OK-3`（允许保留）。
 
 ---
 
@@ -12,10 +12,11 @@
 
 1. 内容完整但不重复。 同一件事只写一次：方法里写清楚做法，结果里只报数，讨论里只解释偏差。
 2. 每句话回答四件事之一：测了什么、怎么测、得到什么数、凭什么这么说。答不上来的句子删掉。
-3. 直接讲物理过程、测量、结果、解释。 不预告、不回顾、不评价自己写得如何。
-4. 术语一致。 全报告一个物理量一个符号、一个器材一个英文词（如统一用 `interferometer`），同义词轮换视为错误（见 `AI-3`）。
+3. 直接讲物理过程、测量、结果、解释。 不预告、不回顾、不评价自己写得如何，也不用第三人称论文旁白（`This study...`、`The authors...`）。
+4. 术语与时态一致。 全报告一个物理量一个符号、一个器材一个英文词（如统一用 `interferometer`），同义词轮换视为错误（见 `AI-3`）。具体实验操作与本次读数用一般过去时，物理规律、方程与图表指代用一般现在时。
 5. 用户与课程要求高于通用科研写作默认。 模板要求写定义、写步骤、写思考题，就写；模板没要求的不补背景综述。
 6. 表达问题就是评分风险。 评审读不懂你的推导会直接判为不懂实验，而不是「语言问题」。
+7. 宁缺毋滥，克制修改。 润色或审校时，已经清楚、准确、自然的标准书面语原样保留，不为了刷存在感做同义词替换。
 
 ---
 
@@ -25,8 +26,8 @@
 
 ### `AI-1` 浮夸形容词与空泛意义
 
-- 判定：形容词/副词替数据说话，删掉后信息量不变。命中词表：`crucial`、`vital`、`plays a key role`、`robust`、`comprehensive`、`remarkable`、`seamless`、`state-of-the-art`、`groundbreaking`、`pivotal`、`very important`、`extremely accurate`。
-- 处理：换成数值、条件或对比；换不出就整句删。
+- 判定：形容词/副词替数据说话，删掉后信息量不变。命中词表：`crucial`、`vital`、`pivotal`、`groundbreaking`、`cutting-edge`、`state-of-the-art`、`seamless`、`holistic`、`comprehensive`、`remarkable`、`robust`、`delve`、`tapestry`、`landscape`、`endeavor`、`elucidate`、`substantiate`、`underscore`、`foster`、`garner`、`interplay`、`intricate`、`meticulous`、`paradigm`、`synergy`、`testament`、`plays a key role`、`very important`、`extremely accurate`。
+- 处理：换成具体物理事实、数值、条件或对比；换不出就整句删。`robust optimization` 等确有技术专指的术语不机械误杀。
 
 ```text
 bad:  The alignment procedure plays a crucial role in this robust and comprehensive experiment.
@@ -102,6 +103,21 @@ good: One miscounted fringe shifts the wavelength by 0.6 nm.
 ```text
 bad:  Moreover, the fringes were sharp. Furthermore, the count was stable. Additionally, the fit was good.
 good: The fringes were sharp and the count stayed stable, so the fit residuals stayed below 2 counts.
+```
+
+### `AI-9` 破折号打断句式
+
+- 判定：英文学术正文出现 em-dash（`—`）或双连字符（`--`）做插入语或结构替代。数值范围的 en-dash（`10–50 s`）与负号（`−8.65%`）除外。
+- 处理：改用逗号、括号或从句；长报告全文最多保留极少数确实必要的破折号。
+
+### `AI-10` 空洞 `-ing` 拔高与替代 `is/are/has` 腔
+
+- 判定：句末附带空洞分词短语拔高意义（`, highlighting/underscoring/demonstrating its importance`），或用 `serves as`、`stands as`、`boasts`、`features` 替代简单的 `is`/`are`/`has`。
+- 处理：删掉空洞尾句；改回简单动词与直接事实。
+
+```text
+bad:  The tube serves as the core unit, highlighting its crucial role in atomic physics.
+good: The tube contains a cathode, two grids, and a collector.
 ```
 
 ---
@@ -247,44 +263,48 @@ after:  The measured wavelength, 632.6 ± 0.4 nm, agrees with the 632.8 nm refer
 
 两次通读改同一份成稿，不另写语言评审报告，也不在两轮之间改数据。顺序固定：先内容，后表达。
 
-### 5.1 第一次：内容通读
+### 5.1 第一次：内容与数据一致性通读
 
 逐段回答下列问题，答不上来的整段重写：
 
 - 模板要求的每个问题、每个小标题都答到了吗？有没有答非所问或漏题？
 - 这段的职责是单一的（方法/结果/讨论/结论）吗？有没有把结果混进方法、把方法混进讨论？
-- 论述链完整吗：为什么做这一步 → 公式 → 代入的数 → 得到的结果 → 与参考值比较。
+- 论述链完整吗：为什么做这一步 → 公式（先引出物理意义再列式，后释符号）→ 代入的数 → 得到的结果 → 与参考值比较。
 - 详略符合模板篇幅吗（见第 6 节字数要求）？有没有在低分值内容上铺陈。
-- 正文数字与图、表、附录数据表逐项一致吗？一处不一致就回数据源核对。
+- **跨处数值与术语对账**：原始数据表 → 派生栏/计算链（含中间保护位与最终取位）→ 图表标注 → 摘要 → 结论 → Postlab 思考题引用的测量值/误差，各处数值、单位与符号是否逐项一致？
 
 ### 5.2 第二次：表达通读
 
-英文表达润色参考 [Leey21 的英文润色与逻辑检查](https://github.com/Leey21/awesome-ai-research-writing)。优先拆开挤在同一句里的多个判断，让测量对象、比较条件和结果紧挨着出现。用常见、准确的学术词汇和完整书面语，检查冠词、时态和标点。已经清楚的句子沿用原有表达。
+英文表达润色参考 [Leey21 的英文润色与逻辑检查](https://github.com/Leey21/awesome-ai-research-writing) 与科研写作规范：优先拆开挤在同一句里的多个判断，让测量对象、比较条件和结果紧挨着出现；用常见、准确的学术词汇和完整书面语（禁用 `it's`/`doesn't` 缩写），检查冠词、时态和标点。已经清楚的句子沿用原有表达，不为改而改。
 
 只要求润色时，直接修改 Word 正文中指定的段落。保留原有段落结构、标题、题目原文、数值、单位、公式和格式。段落内有可编辑公式时，改公式前后的文字。按课程要求交付 Word 和 PDF。
 
 按第 2、3 节的规则逐句过，逐类扫：
 
-- 过程旁白与预告：删掉「本报告将」「下文将详细讨论」「按模板」（`AI-4`、`AI-5`、`DEF-1`、`DEF-2`）。
+- 过程旁白与预告：删掉「本报告将」「下文将详细讨论」「按模板」、第三人称旁白（`AI-4`、`AI-5`、`DEF-1`、`DEF-2`）。
 - 过度解释：删掉有效数字与不确定度规则的教学式说明（`DEF-5`），只在被问的位置保留一次。
 - 重复限定与免责：限定收成一层，删自我辩护（`DEF-3`、`DEF-4`、`DEF-6`）。
-- 聊天腔与浮夸：删套话、形容词、感叹号、粗体（`AI-1`、`AI-2`、`AI-7`）。
+- 聊天腔、浮夸与句式机械感：删套话、高频 AI 词、破折号打断、空洞 `-ing` 尾巴、感叹号、正文粗体（`AI-1`、`AI-2`、`AI-7`、`AI-9`、`AI-10`）；若连续多句长度和句式完全相同，合并或拆开以恢复自然节奏（参数罗列中的分号如 `V₁ = 2.2 V; V₂ = 2.0 V` 属正常格式，不必硬改）。
 - 导出前核对正文、图表及适用的摘要和结论。优先处理前后矛盾、术语或指代歧义、逻辑断点和影响理解的语病。核对各处数据、单位、适用条件和结论强度。
 - 最后跑一遍 lint，确认命中项逐条处理或明确保留：
 
 ```bash
-python3 scripts/lint_writing.py report.md --json
+python3 scripts/lint_writing.py report.docx --json
 ```
 
 ---
 
-## 6. 报告类型差异
+## 6. 报告类型与科研写作结构对照
 
-同一套规则，三种交付的篇幅与结构要求不同。
+同一套规则，三种交付的篇幅与结构要求不同；正面写作结构参考已完成高分报告与科研写作范式：
 
-- Prelab（预习报告）：按题号逐题作答；不复述题目原文；不写「本报告将回答…」。每题先给结论，再给依据与公式。
-- Short report（短报告）：摘要约 100 词，结论约 100 词；不设独立 Experimental Procedure 节，做法写在正文里。
-- Long report（长报告）：Discussion 超过 150 词，Conclusion 约 50 词；有独立的 Experimental Procedure 与 References。
+- **Prelab（预习报告）**：按题号逐题作答；不复述题目原文；不写「本报告将回答…」。每题先给结论，再给依据与公式，后补符号说明与单位换算。
+- **Short report（短报告）**：摘要约 100 词（方法与测量条件 → 核心处理/拟合 → 定量主结果与参考值对比 → 主要趋势或误差来源，不写空洞数字流水账），结论约 100 词（直接总结主结果、主导误差机制与可改进操作）；不设独立 Experimental Procedure 节，做法写在正文里。
+- **Long report（长报告）**：
+  - Introduction：核心物理效应/实验现象 → 仪器结构与关键电压/光路参数作用 → 消除系统偏移或提取物理量的测量原理。
+  - Experimental Procedure：按操作顺序写清仪器清单、参数设置与每步测量对象（允许编号步骤）。
+  - Results & Discussion（>150 词）：图表标题去掉 `This figure shows` 冗余开头（名词性短语无句号，完整句加句号）；Discussion 用「主观测证据 → 误差拆解与机制归因 → 参数条件对比与改进方向」组织，避免列举堆砌。
+  - Conclusion（约 50 词）：重申核心结果、误差与主要参数结论，不引入新主张。
 - 字数、分值与版式以当前教师 Word 模板为准（模板结构与占位见 [references/course-profile.md](course-profile.md)）；模板与本节冲突时以模板为准。
 
 ---
@@ -319,8 +339,9 @@ OK-3 示例: The third run drifted by 1.8% and was excluded; the drift followed 
 - [ ] 限定语只有一层，没有自我辩护与假想反驳。
 - [ ] 取位直接体现在数值里，没有解释有效数字规则。
 - [ ] 正文数字与图、表、附录逐项一致。
-- [ ] 异常数据与失败尝试已按 `OK-3` 如实说明，未删除或改动。
+- [ ] 异常数据、量程限制与失败尝试已按 `OK-3` 如实说明，未删除或改动。
 - [ ] 真实假设只在相关位置说明一次，并给出影响量级。
+- [ ] 英文正文无 em-dash 滥用与空洞 `-ing` 尾句，时态与图表标题格式一致。
 - [ ] `python3 scripts/lint_writing.py <file>` 命中项已逐条处理或明确保留。
 
 ---

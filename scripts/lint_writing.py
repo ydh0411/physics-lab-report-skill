@@ -3,11 +3,12 @@
 
 Rules follow `references/writing-policy.md`:
 
-    AI-1 .. AI-8  去 AI 味（浮夸词、机械三段式、同义词轮换、聊天腔开场、无信息承诺、
-                  列举堆砌、排比/粗体滥用、每段过渡语）
+    AI-1 .. AI-10 去 AI 味（浮夸词、机械三段式、同义词轮换、聊天腔/第三人称开场、
+                   无信息承诺、列举堆砌、排比/粗体滥用、每段过渡语、破折号打断、
+                   空洞 -ing 拔高与替代 is/are/has 腔）
     DEF-1 .. DEF-6 去防御性语言（模板/流程声明、教材章节旁白、重复限定堆叠、
-                  自我辩护与免责、有效数字与不确定度教学式解释、假想反驳）
-    OK-1 .. OK-3  允许保留（一层准确限定、真实假设、异常与偏差解释），只列不报。
+                   自我辩护与免责、有效数字与不确定度教学式解释、假想反驳）
+    OK-1 .. OK-3   允许保留（一层准确限定、真实假设、异常与偏差解释），只列不报。
 
 Usage
     python3 scripts/lint_writing.py <file.md|file.docx|file.txt> [--json] [--max N]
@@ -57,7 +58,9 @@ RULES = [
             r"cutting[- ]edge|state[- ]of[- ]the[- ]art|seamless(ly)?|holistic|"
             r"comprehensive(ly)?|remarkabl[ey]|robust(ly|ness)?|leverage[sd]?|"
             r"delve[sd]? into|shed[s]? light on|pave[sd]? the way|holds? promise|"
-            r"testament to|underscore[sd]?)\b",
+            r"testament to|underscore[sd]?|endeavou?r[sd]?|elucidate[sd]?|"
+            r"substantiate[sd]?|foster(s|ed|ing)?|garner(s|ed|ing)?|interplay|"
+            r"intricate|intricacies|meticulous(ly)?|tapestry|paradigm|synergy|realm)\b",
             r"\bplays? (an? )?(crucial|vital|key|central|pivotal|significant|important) role\b",
             r"\bof (great|considerable|paramount) (significance|importance)\b",
             r"\b(extremely|highly|very|incredibly|remarkably) (important|accurate|precise|useful|reliable|sensitive)\b",
@@ -105,6 +108,7 @@ RULES = [
             r"\b(let us|let's) (now )?(consider|examine|take|start|begin|look)\b",
             r"\b(as we all know|as is well known|as (you|we) (may |might )?know)\b",
             r"\bin the (following|next) (section|part),? (we|this report)\b",
+            r"\b(the authors|this study) (propose|demonstrate|investigate|examine|explore|show)[sd]?\b",
         ],
         "advice": "直接从测量对象和结果写起，删掉“本报告将……”“让我们……”式预告。",
         "bad": "In this report, we will explore how the Michelson interferometer works.",
@@ -164,6 +168,32 @@ RULES = [
         "advice": "段落之间靠物理因果衔接；删掉 Moreover/Furthermore/Additionally 式填充过渡。",
         "bad": "Moreover, the fringes were sharp. Furthermore, the count was stable. Additionally, the fit was good.",
         "good": "The fringes were sharp and the count stayed stable, so the fit residuals stayed below 2 counts.",
+    },
+    {
+        "id": "AI-9",
+        "name": "破折号打断句式",
+        "kind": "AI",
+        "checkable": True,
+        "patterns": [
+            r"—|\s--\s",
+        ],
+        "advice": "英文正文不用 em-dash（—）或双连字符（--）作插入语；改用逗号、括号或从句。",
+        "bad": "The drift — caused by room heating — shifted the fringe count.",
+        "good": "Room heating caused a drift that shifted the fringe count.",
+    },
+    {
+        "id": "AI-10",
+        "name": "空洞 -ing 拔高与替代 is/are/has 腔",
+        "kind": "AI",
+        "checkable": True,
+        "patterns": [
+            r",\s*(highlighting|underscoring|emphasizing|demonstrating|showcasing|reflecting)\s+"
+            r"(the|its|their)\s+(importance|significance|crucial|vital|broader|key|potential)\b",
+            r"\b(serves as|stands as|boasts)\b",
+        ],
+        "advice": "删掉句末空洞 -ing 拔高短语；把 serves as / stands as / boasts 改回 is / has。",
+        "bad": "The tube serves as the core unit, highlighting its importance in atomic physics.",
+        "good": "The tube contains a cathode, two grids, and a collector.",
     },
     {
         "id": "DEF-1",

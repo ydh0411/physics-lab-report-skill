@@ -95,8 +95,10 @@
 | 类别 | 反例 | 处理 |
 |---|---|---|
 | AI-1 浮夸形容词 | `plays a crucial role in modern physics` | 直接说该量在实验里干什么 |
-| AI-4 聊天腔开场 | `In this report, we will discuss the Franck-Hertz experiment` | 从第一句物理内容开始 |
+| AI-4 聊天腔/第三人称 | `In this report, we will discuss...` / `This study investigates...` | 从第一句物理内容开始 |
 | AI-2 机械三段式 | 先讲意义 → 再讲步骤 → 再讲意义 | 按模板节次和物理因果组织 |
+| AI-9 破折号打断 | `The drift — caused by heating — shifted...` | 改用逗号、括号或从句 |
+| AI-10 空洞 `-ing` 尾巴 | `serves as ..., highlighting its importance` | 改回 `is/has` 并删空洞拔高 |
 | DEF-1 模板声明 | `We use the provided template and tables` | 删；模板使用不是报告内容 |
 | DEF-2 章节旁白 | `Data are processed using Sec. 3.9.6 of the textbook` | 删；直接给出处理过程和结果 |
 | DEF-3 重复限定 | `might potentially suggest that` | 收成一层：`suggests that` |

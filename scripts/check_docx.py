@@ -73,7 +73,7 @@ EXPECTED_TITLES = {
         ("Calculations and Results", r"^calculations and results\b"),
         ("Conclusions", r"^conclusions\b"),
         ("Answers to Postlab Questions", r"^answers to .*questions\b"),
-        ("Appendix (Scanned data sheets)", r"^appendix\b.*(scanned data sheets|data sheets)"),
+        ("Appendix (Scanned data sheets)", r"^appendix\b.*(scanned data sheets|experimental data sheets|original completed data sheet|original data record|data sheets?|data record)"),
     ],
     "long": [
         ("Abstract", r"^abstract\b"),
@@ -85,7 +85,7 @@ EXPECTED_TITLES = {
         ("References", r"^references\b"),
         ("Answers to Questions", r"^answers to .*questions\b"),
         ("Appendix (Calculations)", r"^appendix\b.*calculations\b"),
-        ("Appendix (Scanned data sheets)", r"^appendix\b.*(scanned data sheets|data sheets)"),
+        ("Appendix (Scanned data sheets)", r"^appendix\b.*(scanned data sheets|experimental data sheets|original completed data sheet|original data record|data sheets?|data record)"),
     ],
 }
 
@@ -147,6 +147,8 @@ def collect_xml_stats(zf):
     font_chars = Counter()
     font_where = defaultdict(set)
     sizes = Counter()
+    body_sizes = Counter()
+    table_sizes = Counter()
     small_text_runs = []
     omml = 0
     drawings = 0
@@ -160,6 +162,7 @@ def collect_xml_stats(zf):
             continue
         root = etree.fromstring(data)
         where = short_part_name(part)
+        doc_part = part == "word/document.xml"
         for run in root.iter(W + "r", M + "r"):
             rpr = run.find(W + "rPr")
             text = "".join(run.itertext())
@@ -185,6 +188,12 @@ def collect_xml_stats(zf):
                 except (TypeError, ValueError):
                     continue
                 sizes[pt] += 1
+                if doc_part:
+                    in_table = any(anc.tag == W + "tbl" for anc in run.iterancestors())
+                    if in_table:
+                        table_sizes[pt] += 1
+                    else:
+                        body_sizes[pt] += 1
                 if pt < 9:
                     small_text_runs.append((where, pt, text[:24]))
         doc_part = part == "word/document.xml"
@@ -210,6 +219,8 @@ def collect_xml_stats(zf):
         "font_chars": font_chars,
         "font_where": font_where,
         "sizes": sizes,
+        "body_sizes": body_sizes,
+        "table_sizes": table_sizes,
         "small_text_runs": small_text_runs,
         "omml": omml,
         "drawings": drawings,
@@ -267,7 +278,13 @@ def heading_candidates(infos):
     for i, info in enumerate(infos):
         merged = info["text"]
         is_bold = info["bold"]
-        if i + 1 < len(infos) and infos[i + 1]["text"].startswith(("(", "（")):
+        if i + 1 < len(infos) and (
+            infos[i + 1]["text"].startswith(("(", "（"))
+            or (
+                merged.lower() == "appendix"
+                and re.match(r"^(original|experimental|scanned|data)\b", infos[i + 1]["text"], re.I)
+            )
+        ):
             merged = f"{merged} {infos[i + 1]['text']}"
             is_bold = is_bold or infos[i + 1]["bold"]
         candidates.append({"text": merged, "bold": is_bold})
@@ -288,16 +305,22 @@ def check_titles(report, infos, report_type):
         )
         headings = [c for c in candidates if len(c["text"]) <= 100]
     expected = EXPECTED_TITLES[report_type]
+    short_candidates = [c for c in candidates if len(c["text"]) <= 100]
     positions = []
     found = 0
     for label, pattern in expected:
         regex = re.compile(pattern, re.IGNORECASE)
         idx = next((i for i, c in enumerate(headings) if regex.match(c["text"])), None)
-        if idx is None:
-            report.error("TITLE-MISSING", f"缺少模板节标题：{label}")
-        else:
+        if idx is not None:
             found += 1
             positions.append((label, idx))
+            continue
+        fallback = next((c for c in short_candidates if regex.match(c["text"])), None)
+        if fallback is not None:
+            found += 1
+            report.info("TITLE-UNBOLDED", f"节标题「{label}」存在但未显式加粗：{fallback['text'][:60]}")
+        else:
+            report.error("TITLE-MISSING", f"缺少模板节标题：{label}")
     report.stats["titles"] = {
         "found": found,
         "expected": len(expected),
@@ -415,7 +438,7 @@ def check_header(report, document, report_type, xml_stats):
         else:
             report.info("HEADER-OK", "页眉字段与模板一致")
     elif report_type == "short" and joined:
-        report.warn("HEADER-TEXT", f"short report 模板页眉无文字字段，当前页眉有文字：{joined[:60]}")
+        report.info("HEADER-TEXT", f"short report 2026 模板页眉默认为空；当前保留页眉：{joined[:60]}（若保留请核对与封面一致）")
 
 
 def check_score_boxes(report, document, report_type):
@@ -475,11 +498,21 @@ def check_fonts(report, xml_stats):
 
 def check_sizes(report, xml_stats):
     sizes = xml_stats["sizes"]
+    body_sizes = xml_stats.get("body_sizes") or Counter()
+    table_sizes = xml_stats.get("table_sizes") or Counter()
     report.stats["sizes"] = {str(k): v for k, v in sorted(sizes.items())}
+    report.stats["body_sizes"] = {str(k): v for k, v in sorted(body_sizes.items())}
+    report.stats["table_sizes"] = {str(k): v for k, v in sorted(table_sizes.items())}
     if not sizes:
         return
-    dominant = max(sizes, key=sizes.get)
-    report.info("SIZE", f"正文字号以 {dominant:g}pt 为主；分布：" + "、".join(f"{pt:g}pt×{n}" for pt, n in sorted(sizes.items())))
+    primary_source = body_sizes or sizes
+    dominant = max(primary_source, key=primary_source.get)
+    label = "正文段落主字号" if body_sizes else "正文字号"
+    detail = "、".join(f"{pt:g}pt×{n}" for pt, n in sorted(sizes.items()))
+    if table_sizes:
+        table_dom = max(table_sizes, key=table_sizes.get)
+        detail += f"（表格主字号 {table_dom:g}pt）"
+    report.info("SIZE", f"{label}为 {dominant:g}pt；分布：{detail}")
     small = xml_stats["small_text_runs"]
     if small:
         sample = "；".join(f"{w} {pt:g}pt「{t}」" for w, pt, t in small[:3])

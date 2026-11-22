@@ -24,14 +24,14 @@
 
 ## Formula Checklist
 
-- Average repeated balance voltage and fall time for each droplet.
-- Compute charge using the teacher-provided Millikan formula and apparatus
-  constants.
-- Compute integer electron count `n` from each droplet charge.
-- Compute elementary charge per droplet and average the results.
+- Average repeated balance voltage and fall time for each droplet; complete mean columns in both the body table and the editable appendix table when present.
+- Compute droplet charge `q` using the teacher-provided Millikan formula with slip correction `(1 + 0.02 * sqrt(t))` or the exact denominator in `Calculations for Lab-9.docx` and apparatus constants.
+- Assign integer electron count `n = [q / e_0]` (nearest integer using `e_0 = 1.602e-19 C`) and explain the rounding step once.
+- Compute elementary charge `e_i = q_i / n_i` per droplet, average across the measured droplets (`N = 5` when 5 groups are measured), and compute relative error against `1.602e-19 C`.
 
 ## Common Pitfalls
 
-- Treating a noisy droplet as reliable without repeated measurements.
-- Rounding electron count too late or too early; explain the integer assignment.
-- Omitting apparatus constants from the calculation section.
+- Including viscous drag in the static-balance prelab force equation (viscous drag is zero when the droplet is stationary relative to air).
+- Leaving unused rows 6–10 blank when the instructor requires only 5 droplets (remove empty groups cleanly).
+- Leaving mean columns blank in the appendix table when they can be computed directly from the measured readings.
+- Omitting apparatus constants (`d`, `l`, `rho`, `eta`, `g`, `b`) or unit conversions (`cm -> m`) from the calculation section.
